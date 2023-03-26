@@ -1,8 +1,8 @@
-package de.ursteiner;
+package com.github.ursteiner;
 
-import de.ursteiner.model.Particle;
-import de.ursteiner.model.Tower;
-import de.ursteiner.model.Type;
+import com.github.ursteiner.model.Particle;
+import com.github.ursteiner.model.Tower;
+import com.github.ursteiner.model.Type;
 
 import java.awt.Point;
 
@@ -30,6 +30,16 @@ public class TowerDefHelper {
 		return new Point(x, y);
 	}
 
+	/**
+	 *
+	 * Check if point p1 is in the rectangle defined by p2 and width/height
+	 *
+	 * @param p1 point to check
+	 * @param p2 start of the rectangle
+	 * @param width width of the rectangle
+	 * @param height height of the rectangle
+	 * @return if p1 collides with the rectangle p2 & width / height
+	 */
 	public static boolean checkCollision(Point p1, Point p2, int width, int height) {
 		return p1.x > p2.x && p1.x < p2.x + width && p1.y > p2.y && p1.y < p2.y + height;
 	}

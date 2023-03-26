@@ -1,6 +1,6 @@
-package de.ursteiner;
+package com.github.ursteiner;
 
-import de.ursteiner.model.*;
+import com.github.ursteiner.model.*;
 
 import java.awt.AlphaComposite;
 import java.awt.BasicStroke;

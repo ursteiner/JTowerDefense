@@ -1,4 +1,4 @@
-package de.ursteiner.model;
+package com.github.ursteiner.model;
 
 import java.awt.Point;
 

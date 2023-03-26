@@ -1,6 +1,4 @@
-package de.ursteiner.model;
-
-import de.ursteiner.model.Particle;
+package com.github.ursteiner.model;
 
 import java.awt.Point;
 import java.util.ArrayList;

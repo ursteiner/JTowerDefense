@@ -1,4 +1,4 @@
-package de.ursteiner.model;
+package com.github.ursteiner.model;
 
 public enum Type {
 	// TODO change prize for detector towers

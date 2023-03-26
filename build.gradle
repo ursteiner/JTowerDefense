@@ -14,6 +14,19 @@ dependencies {
     testRuntimeOnly 'org.junit.jupiter:junit-jupiter-engine:5.8.1'
 }
 
+jar {
+    manifest {
+        attributes "Main-Class": "com.github.ursteiner.JTowerDefense"
+    }
+    from {
+        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+    }{
+        exclude 'META-INF/*.RSA'
+        exclude 'META-INF/*.SF'
+        exclude 'META-INF/*.DSA'
+    }
+}
+
 test {
     useJUnitPlatform()
 }
