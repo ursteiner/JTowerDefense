@@ -1,5 +1,7 @@
 package com.github.ursteiner;
 
+import com.github.ursteiner.model.Tower;
+import com.github.ursteiner.model.Type;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -37,5 +39,24 @@ class TowerDefHelperTest {
         boolean collidesT2 = TowerDefHelper.checkCollision(p3, p4, 10, 10);
 
         Assertions.assertEquals(true, collidesT2, "P3 should collide");
+    }
+
+    @Test
+    void canUpgrade(){
+        Tower t1 = new Tower(new Point(), 0,0, Type.DETECTOR);
+        boolean canUpgrade1 = TowerDefHelper.canUpgrade(t1, 100, 0);
+        Assertions.assertEquals(false, canUpgrade1, "Detector tower cant be upgraded");
+
+        Tower t2 = new Tower(new Point(), 0,0, Type.BLUE);
+        boolean canUpgrade2 = TowerDefHelper.canUpgrade(t2, 150, 1);
+        Assertions.assertEquals(false, canUpgrade2, "Tower can be upgraded");
+
+        Tower t3 = new Tower(new Point(), 0,0, Type.BLUE);
+        boolean canUpgrade3 = TowerDefHelper.canUpgrade(t3, 250, 2);
+        Assertions.assertEquals(false, canUpgrade3, "Tower can be upgraded");
+
+        Tower t4 = new Tower(new Point(), 0,0, Type.BROWN);
+        boolean canUpgrade4 = TowerDefHelper.canUpgrade(t4, 100, 2);
+        Assertions.assertEquals(false, canUpgrade4, "Tower can't be upgraded");
     }
 }
