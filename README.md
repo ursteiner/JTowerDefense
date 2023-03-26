@@ -1,6 +1,9 @@
-#JTowerDefense
+# JTowerDefense
 
-![JTowerDefense](https://github.com/ursteiner/JTowerDefense/blob/main/JTowerDefense.png)
+![JTowerDefense](https://github.com/ursteiner/JTowerDefense/blob/master/JTowerDefense.png)
+
+
+# Changelog
 
 26.03.2023 Highscore entfernt
 
