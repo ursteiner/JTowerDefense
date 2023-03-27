@@ -5,6 +5,8 @@
 
 # Changelog
 
+27.03.2023 Großes Refactoring begonnen
+
 26.03.2023 Highscore entfernt
 
 21.04.2013 Bluteffekte einstellbar / Umstellung auf schiefer Wurf

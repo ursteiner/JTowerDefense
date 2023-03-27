@@ -1,10 +1,9 @@
 package com.github.ursteiner;
 
-import com.github.ursteiner.model.Particle;
-import com.github.ursteiner.model.Tower;
-import com.github.ursteiner.model.Type;
+import com.github.ursteiner.model.*;
 
 import java.awt.Point;
+import java.util.List;
 
 public class TowerDefHelper {
 
@@ -44,15 +43,15 @@ public class TowerDefHelper {
 		return p1.x > p2.x && p1.x < p2.x + width && p1.y > p2.y && p1.y < p2.y + height;
 	}
 
-	public static boolean canUpgrade(Tower t, int money, int level) {
+	public static boolean canUpgrade(Tower t, GameData gameData) {
 
 		if (Type.DETECTOR.equals(t.getType())) {
 			return false;
 		}
 
-		if (t.getLevel() == 1 && money >= 100 && level >= 4) {
+		if (t.getLevel() == 1 && gameData.getMoney() >= 100 && gameData.getLevel() >= 4) {
 			return true;
-		} else if (t.getLevel() == 2 && money >= 250 && level >= 10) {
+		} else if (t.getLevel() == 2 && gameData.getMoney() >= 250 && gameData.getLevel() >= 10) {
 			return true;
 		}
 
@@ -64,5 +63,22 @@ public class TowerDefHelper {
 		p.setT(p.getT() + 0.1);
 		p.setX((int) (p.getV0() * Math.cos(p.getWinkel()) * p.getT()));
 		p.setY((int) (p.getV0() * Math.sin(p.getWinkel()) * p.getT() - (g / 2) * (Math.pow(p.getT(), 2))));
+	}
+
+	public static boolean isPositionFree(Point p, GameData gameData, GameMap gameMap) {
+		// no tower at position
+		for (Tower tower : gameData.getBuildTowers()) {
+			if (tower.getPos().x == p.x && tower.getPos().y == p.y) {
+				return false;
+			}
+		}
+		// no way point at position
+		for (Point wp : gameMap.getWaypoints()) {
+			if (wp.x == p.x && wp.y == p.y) {
+				return false;
+			}
+		}
+
+		return true;
 	}
 }

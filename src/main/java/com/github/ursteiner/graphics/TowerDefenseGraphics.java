@@ -1,5 +1,6 @@
-package com.github.ursteiner;
+package com.github.ursteiner.graphics;
 
+import com.github.ursteiner.TowerDefHelper;
 import com.github.ursteiner.model.*;
 
 import java.awt.AlphaComposite;
@@ -18,14 +19,14 @@ import javax.swing.ImageIcon;
 public class TowerDefenseGraphics {
 
 	private final int TOWER_WIDTH = 20;
+	private final int TOWER_HEIGHT = 20;
 	private final BasicStroke LINE_WIDTH_3 = new BasicStroke(3);
-	private final BasicStroke LINE_WIDTH_2 = new BasicStroke(2);
+	private static final BasicStroke LINE_WIDTH_2 = new BasicStroke(2);
 	private final BasicStroke LINE_WIDTH_1 = new BasicStroke(1);
-
-	private final Font FONT_GAME_OVER = new Font("SansSerif", Font.BOLD, 25);
-	private final Font FONT_MENU = new Font("SansSerif", Font.BOLD, 14);
-	private final Font BASIC_FONT = new Font("SansSerif", Font.PLAIN, 10);
-
+	public static final Font FONT_GAME_OVER = new Font("SansSerif", Font.BOLD, 25);
+	private static String FONT_NAME = "SansSerif";
+	public static final Font FONT_MENU = new Font(FONT_NAME, Font.BOLD, 14);
+	private static final Font BASIC_FONT = new Font(FONT_NAME, Font.PLAIN, 10);
 	private final Image GRASS = new ImageIcon(getClass().getResource("grass.png")).getImage();
 	private final Image WAY = new ImageIcon(getClass().getResource("way.png")).getImage();
 	private final Image TOWER_BLUE = new ImageIcon(getClass().getResource("towerblue.png")).getImage();
@@ -59,24 +60,13 @@ public class TowerDefenseGraphics {
 		}
 	}
 
-	public void paintMenu(Graphics g, boolean gameOver) {
-
-		g.setColor(new Color(0f, 0f, 0f, 0.75f));
-		g.fillRect(355, 40, 115, 110);
-		if (gameOver) {
-			g.setFont(FONT_GAME_OVER);
-			g.setColor(new Color(1f, 1f, 1f, 0.5f));
-			g.drawString("GAME OVER!", 40, 320);
-		}
-	}
-
-	public void paintMenuButton(Graphics g, Point b, String text, Point selectedMenuButton) {
+	public static void paintMenuButton(Graphics g, Point b, String text, boolean isMouseOver) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(LINE_WIDTH_2);
 		g.setColor(Color.LIGHT_GRAY);
 		g.drawRect(b.x, b.y, 105, 15);
 
-		if (b.equals(selectedMenuButton)) {
+		if (isMouseOver) {
 			g.setColor(Color.WHITE);
 		} else {
 			g.setColor(Color.LIGHT_GRAY);
@@ -92,63 +82,19 @@ public class TowerDefenseGraphics {
 		g.drawRect(tower.getPos().x - 1, tower.getPos().y - 1, TOWER_WIDTH + 2, TOWER_WIDTH + 2);
 	}
 
-	public void paintStatus(Graphics g, int level, int money, int score, int kills) {
+	public void paintStatus(Graphics g, GameData gameData, int kills) {
 		g.setColor(Color.DARK_GRAY);
 		g.setFont(BASIC_FONT);
-		g.drawString("lvl: " + level, 110, 365);
-		g.drawString("" + money + " $", 150, 365);
-		g.drawString("score: " + score, 210, 365);
+		g.drawString("lvl: " + gameData.getLevel(), 110, 365);
+		g.drawString("" + gameData.getMoney() + " $", 150, 365);
+		g.drawString("score: " + gameData.getScore(), 210, 365);
 		g.drawString("kills: " + kills, 300, 365);
 	}
 
-	public void paintHint(Graphics g, Hint h) {
+	public static void paintHint(Graphics g, Hint h) {
 		g.setColor(Color.DARK_GRAY);
 		g.setFont(BASIC_FONT);
 		g.drawString(h.getText(), h.getP().x - 10, h.getP().y + 35);
-	}
-
-	public void paintButton(Graphics g, Point button, boolean enabled) {
-		g.setColor(Color.BLACK);
-		g.fillRect(button.x, button.y, TOWER_WIDTH, TOWER_WIDTH);
-
-		if (enabled) {
-			g.setColor(Color.WHITE);
-		} else {
-			g.setColor(Color.GRAY);
-		}
-
-		g.fillRect(button.x + 1, button.y + 8, 18, 4);
-		g.fillRect(button.x + 8, button.y + 1, 4, 18);
-	}
-
-	public void paintRadiusButton(Graphics g, Point button, boolean enabled) {
-		g.setColor(Color.BLACK);
-		g.fillRect(button.x, button.y, TOWER_WIDTH, TOWER_WIDTH);
-
-		if (enabled) {
-			g.setColor(Color.WHITE);
-		} else {
-			g.setColor(Color.GRAY);
-		}
-
-		g.fillOval(button.x + 1, button.y + 1, 10, 10);
-		g.fillOval(button.x + 10, button.y + 5, 10, 10);
-		g.fillOval(button.x + 1, button.y + 9, 10, 10);
-	}
-
-	public void paintPauseButton(Graphics g, Point button, boolean enabled) {
-		g.setColor(Color.BLACK);
-		g.fillRect(button.x, button.y, TOWER_WIDTH, TOWER_WIDTH);
-
-		if (enabled) {
-			g.setColor(Color.WHITE);
-		} else {
-			g.setColor(Color.GRAY);
-		}
-
-		g.fillRect(button.x + 3, button.y + 2, 5, +TOWER_WIDTH - 4);
-		g.fillRect(button.x + 12, button.y + 2, 5, +TOWER_WIDTH - 4);
-
 	}
 
 	public void paintFasterButton(Graphics g, Point button) {
@@ -194,10 +140,9 @@ public class TowerDefenseGraphics {
 		g.fillRect(360, 350, 5, 20);
 		g.setColor(Color.GREEN);
 		g.fillRect(360, 350 + (4 * (5 - fails)), 5, 20 - (4 * (5 - fails)));
-
 	}
 
-	public void paintGameField(Graphics g, List<Point> waypoints, List<Blood> killList, List<Point> sea, boolean bloodMode) {
+	public void paintGameField(Graphics g, GameMap gameMap, GameData gameData) {
 		// background
 		if (!backgroundGenerated) {
 			// background is only generated once to a buffered Image
@@ -207,21 +152,21 @@ public class TowerDefenseGraphics {
 				}
 			}
 
-			for (Point s : sea) {
+			for (Point s : gameMap.getSea()) {
 				background.getGraphics().drawImage(SEA, s.x, s.y, null);
 			}
 
 			// way
-			for (Point p : waypoints) {
+			for (Point p : gameMap.getWaypoints()) {
 				background.getGraphics().drawImage(WAY, p.x, p.y, null);
 			}
 
 		}
 		g.drawImage(background, 0, 0, null);
 
-		if (bloodMode) {
+		if (gameData.isBloodMode()) {
 			// killed attackers
-			for (Blood b : killList) {
+			for (Blood b : gameData.getKillList()) {
 				g.setColor(new Color(b.getBloodColor(), 0, 0));
 				g.fillRect(b.getPos().x + 6, b.getPos().y + 2, 4, 4);
 				g.fillRect(b.getPos().x + 4, b.getPos().y + 4 + 10, 3, 3);
@@ -232,11 +177,11 @@ public class TowerDefenseGraphics {
 		backgroundGenerated = true;
 	}
 
-	public void paintTower(Graphics g, Tower tower, int money, boolean showupgrade, int level, boolean drawAvailableTower) {
+	public void paintTower(Graphics g, Tower tower, GameData gameData, boolean showupgrade, boolean drawAvailableTower) {
 
 		// paint towers
 		if (drawAvailableTower) {
-			if (money >= tower.getType().getCost()) {
+			if (gameData.getMoney() >= tower.getType().getCost()) {
 				((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 1.0f));
 			} else {
 				((Graphics2D) g).setComposite(AlphaComposite.getInstance(AlphaComposite.SRC_OVER, 0.4f));
@@ -287,7 +232,7 @@ public class TowerDefenseGraphics {
 				g.fillRect(tower.getPos().x + (i * 3), tower.getPos().y + 17, 2, 2);
 			}
 
-			if (showupgrade && TowerDefHelper.canUpgrade(tower, money, level)) {
+			if (showupgrade && TowerDefHelper.canUpgrade(tower, gameData)) {
 				g.setColor(Color.GREEN);
 				g.fillRect(tower.getPos().x + 14, tower.getPos().y + 2, 6, 2);
 				g.fillRect(tower.getPos().x + 14 + 2, tower.getPos().y, 2, 6);

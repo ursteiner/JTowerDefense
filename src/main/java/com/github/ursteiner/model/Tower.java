@@ -1,11 +1,13 @@
 package com.github.ursteiner.model;
 
+import lombok.Data;
 import java.awt.Point;
-
+@Data
 public class Tower {
 
 	public static final int MAX_UPGRADE_LEVEL = 3;
-
+	public static final int TOWER_WIDTH = 20;
+	public static final int TOWER_HEIGHT = 20;
 	private final Point pos;
 	private int level;
 	private Point canonEndpoint = new Point();
@@ -15,7 +17,6 @@ public class Tower {
 	private int canonColor;
 	private int strength;
 	private int timeToWait = 20;
-	// a^2 + b^2 = c^2
 	private double canonLength = 12;
 	private final Type type;
 	private Shot shots;
@@ -33,7 +34,6 @@ public class Tower {
 		this.level = 1;
 		this.strength = 1;
 		this.canonEndpoint = pos;
-
 		this.canonColor = 0;
 	}
 
@@ -54,10 +54,6 @@ public class Tower {
 		this.upgrade = true;
 	}
 
-	public int getUpgradeProgress() {
-		return upgradeProgress;
-	}
-
 	public boolean isInUpgrade() {
 		return upgrade;
 	}
@@ -71,39 +67,6 @@ public class Tower {
 			reloadTimer++;
 			return false;
 		}
-
-	}
-
-	public Point getPos() {
-		return pos;
-	}
-
-	public int getRadius() {
-		return radius;
-	}
-
-	public Point getCanonEndpoint() {
-		return canonEndpoint;
-	}
-
-	public void setCanonEndpoint(Point canonEndpoint) {
-		this.canonEndpoint = canonEndpoint;
-	}
-
-	public int getLevel() {
-		return level;
-	}
-
-	public int getStrength() {
-		return strength;
-	}
-
-	public int getCanonColor() {
-		return canonColor;
-	}
-
-	public void setCanonColor(int canonColor) {
-		this.canonColor = canonColor;
 	}
 
 	public Shot getShots() {
@@ -113,25 +76,4 @@ public class Tower {
 	public void setShot(Shot shot) {
 		this.shots = shot;
 	}
-
-	public Type getType() {
-		return type;
-	}
-
-	public double getCanonLength() {
-		return canonLength;
-	}
-
-	public void setCanonLength(double canonLength) {
-		this.canonLength = canonLength;
-	}
-
-	public Point getLastAttackerPos() {
-		return lastAttackerPos;
-	}
-
-	public void setLastAttackerPos(Point lastAttackerPos) {
-		this.lastAttackerPos = lastAttackerPos;
-	}
-
 }

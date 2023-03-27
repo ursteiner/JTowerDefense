@@ -1,10 +1,12 @@
 package com.github.ursteiner.model;
 
+import lombok.Data;
+
 import java.awt.Point;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Random;
-
+@Data
 public class Shot {
 
 	private Point p2;
@@ -27,26 +29,9 @@ public class Shot {
 
 	}
 
-	public Point getP2() {
-		return p2;
-	}
-
 	public void fadeShot() {
 		if (opacity > 0) {
 			opacity -= 0.25f;
 		}
 	}
-
-	public float getOpacity() {
-		return opacity;
-	}
-
-	public List<Particle> getParticles() {
-		return particles;
-	}
-
-	public boolean isBloodMode() {
-		return bloodMode;
-	}
-
 }

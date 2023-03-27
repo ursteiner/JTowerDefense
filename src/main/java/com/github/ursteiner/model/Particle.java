@@ -1,5 +1,8 @@
 package com.github.ursteiner.model;
 
+import lombok.Data;
+
+@Data
 public class Particle {
 
 	private final int a;
@@ -8,10 +11,6 @@ public class Particle {
 	private int x;
 	private int y;
 	private final int intensity = 255;
-
-	public int getIntensity() {
-		return this.intensity;
-	}
 
 	public Particle(int a, int v0) {
 		super();
@@ -24,33 +23,4 @@ public class Particle {
 	public int getWinkel() {
 		return a;
 	}
-
-	public double getT() {
-		return t;
-	}
-
-	public void setT(double t) {
-		this.t = t;
-	}
-
-	public int getV0() {
-		return v0;
-	}
-
-	public int getX() {
-		return x;
-	}
-
-	public void setX(int x) {
-		this.x = x;
-	}
-
-	public int getY() {
-		return y;
-	}
-
-	public void setY(int y) {
-		this.y = y;
-	}
-
 }
