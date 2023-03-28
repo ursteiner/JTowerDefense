@@ -9,8 +9,8 @@ public class ButtonFaster extends AbstractButton{
 
     public ButtonFaster(GameData gameData) {
         super(gameData);
-        this.position = new Point(460, 350);
-        this.hint = new Hint("speed", new Point(getPosition().x - 5, getPosition().y));
+        this.position = new Point(460 * GameData.ZOOM, 350 * GameData.ZOOM);
+        this.hint = new Hint("speed", new Point(getPosition().x - 5 * GameData.ZOOM, getPosition().y));
     }
 
     @Override
@@ -25,12 +25,12 @@ public class ButtonFaster extends AbstractButton{
     @Override
     public void paintButton(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(getPosition().x, getPosition().y, 10, 9);
+        g.fillRect(getPosition().x, getPosition().y, 10 * GameData.ZOOM, 9 * GameData.ZOOM);
 
         g.setColor(Color.WHITE);
 
-        g.fillRect(getPosition().x + 1, getPosition().y + 4, 8, 2);
-        g.fillRect(getPosition().x + 4, getPosition().y + 1, 2, 8);
+        g.fillRect(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 4 * GameData.ZOOM, 8 * GameData.ZOOM, 2 * GameData.ZOOM);
+        g.fillRect(getPosition().x + 4 * GameData.ZOOM, getPosition().y + 1 * GameData.ZOOM, 2 * GameData.ZOOM, 8 * GameData.ZOOM);
 
         if(isMouseOver()) {
             TowerDefenseGraphics.paintHint(g, getHint());

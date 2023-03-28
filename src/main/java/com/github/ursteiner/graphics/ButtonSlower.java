@@ -9,7 +9,7 @@ public class ButtonSlower extends AbstractButton {
 
     public ButtonSlower(GameData gameData) {
         super(gameData);
-        this.position = new Point(460, 360);
+        this.position = new Point(460 * GameData.ZOOM, 360 * GameData.ZOOM);
     }
 
     @Override
@@ -24,11 +24,11 @@ public class ButtonSlower extends AbstractButton {
     @Override
     public void paintButton(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(getPosition().x, getPosition().y, 10, 10);
+        g.fillRect(getPosition().x, getPosition().y, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
 
         g.setColor(Color.WHITE);
 
-        g.fillRect(getPosition().x + 1, getPosition().y + 4, 8, 2);
+        g.fillRect(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 4 * GameData.ZOOM, 8 * GameData.ZOOM, 2 * GameData.ZOOM);
     }
 
     @Override

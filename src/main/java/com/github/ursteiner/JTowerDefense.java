@@ -3,15 +3,13 @@ package com.github.ursteiner;
 import com.github.ursteiner.graphics.*;
 import com.github.ursteiner.model.*;
 
-import java.awt.Dimension;
-import java.awt.Graphics;
-import java.awt.Point;
-import java.awt.Toolkit;
+import java.awt.*;
 import java.awt.event.KeyEvent;
 import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.awt.geom.AffineTransform;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -24,7 +22,6 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
 
     public static final String VERSION = "1.10";
     private final Point MOUSE_OFFSET = new Point(3, 25);
-    private Point selectedMenuButton;
     private final Point roundedMousePos = new Point();
     private Hint hint;
     private final GameData gameData = new GameData();
@@ -43,6 +40,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     private final ButtonLife lifeButton = new ButtonLife(gameData);
     private final List<AbstractButton> buttonList = List.of(upgradeTowerButton, showTowerRadiusButton, openMenuButton, pauseGameButton, aboutGameButton, exitGameButton, returnButton, newGameButton, bloodOptionButton, fasterButton, slowerButton, lifeButton);
     private final TowerDefenseGraphics graphicsDriver = new TowerDefenseGraphics();
+    private boolean zoom = true;
 
     public JTowerDefense() {
         gameData.initGame();
@@ -54,6 +52,15 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
+        /**
+        if(zoom) {
+            Graphics2D g2 = (Graphics2D) g;
+            AffineTransform at = new AffineTransform();
+            at.scale(2, 2);
+
+            g2.transform(at);
+            //zoom = false;
+        }*/
 
         graphicsDriver.paintGameField(g, gameMap, gameData);
         graphicsDriver.paintAttackers(g, gameData.getAttackers());
@@ -84,7 +91,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
 
             // info about buildable tower
             if(hint != null){
-                graphicsDriver.paintHint(g, hint);
+                TowerDefenseGraphics.paintHint(g, hint);
             }
 
             // Paint GUI Buttons
@@ -95,7 +102,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
             slowerButton.paintButton(g);
             lifeButton.paintButton(g);
 
-            graphicsDriver.paintSpeedBar(g, new Point(460, 350), gameData.getSpeed(), GameData.MIN_SPEED, GameData.MAX_SPEED);
+            graphicsDriver.paintSpeedBar(g, new Point(460 * GameData.ZOOM, 350 * GameData.ZOOM), gameData.getSpeed(), GameData.MIN_SPEED, GameData.MAX_SPEED);
 
 
             // paint Tower to build
@@ -125,7 +132,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     public static void main(String[] args) {
         JFrame frame = new JFrame("TowerDefense " + VERSION);
         JTowerDefense td = new JTowerDefense();
-        frame.setSize(500, 430);
+        frame.setSize(1000, 860);
 
         Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
         int x = (d.width - frame.getSize().width) / 2;
@@ -173,7 +180,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
 
                 // build tower
                 if (TowerDefHelper.isPositionFree(new Point(roundMx, roundMy), gameData, gameMap) && gameData.getSelectedBuildTower() != -1 && !towerSelected && gameData.getMoney() >= towerToBuild.getType().getCost() && gameData.getSelectedTower() == -1 && roundMy < 340) {
-                    gameData.getBuildTowers().add(new Tower(new Point(roundMx, roundMy), 50, 0, towerToBuild.getType()));
+                    gameData.getBuildTowers().add(new Tower(new Point(roundMx, roundMy), 50 * GameData.ZOOM, 0, towerToBuild.getType()));
                     repaint();
                     gameData.setMoney(gameData.getMoney() - towerToBuild.getType().getCost());
                     gameData.setSelectedTower(gameData.getBuildTowers().size() - 1);
@@ -325,20 +332,20 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                 Point targetPoint = gameMap.getWaypoints().get(attacker.getWaypointIndex());
 
                 if (attacker.getPos().y < targetPoint.y) {
-                    attacker.getPos().y += 1;
+                    attacker.getPos().y += 1 * GameData.ZOOM;
                     attacker.setVx(0);
-                    attacker.setVy(1);
+                    attacker.setVy(1 * GameData.ZOOM);
                 } else if (attacker.getPos().y > targetPoint.y) {
-                    attacker.getPos().y -= 1;
+                    attacker.getPos().y -= 1 * GameData.ZOOM;
                     attacker.setVx(0);
-                    attacker.setVy(-1);
+                    attacker.setVy(-1 * GameData.ZOOM);
                 } else if (attacker.getPos().x < targetPoint.x) {
-                    attacker.getPos().x += 1;
-                    attacker.setVx(1);
+                    attacker.getPos().x += 1 * GameData.ZOOM;
+                    attacker.setVx(1 * GameData.ZOOM);
                     attacker.setVy(0);
                 } else if (attacker.getPos().x > targetPoint.x) {
-                    attacker.getPos().x -= 1;
-                    attacker.setVx(-1);
+                    attacker.getPos().x -= 1 * GameData.ZOOM;
+                    attacker.setVx(-1 * GameData.ZOOM);
                     attacker.setVy(0);
                 }
 
@@ -445,16 +452,10 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
         roundedMousePos.x = roundMx;
         roundedMousePos.y = roundMy;
 
-        selectedMenuButton = null;
-
         Point mousePosition = new Point(x, y);
 
         for (AbstractButton btn : buttonList) {
-            if (TowerDefHelper.checkCollision(mousePosition, btn.getPosition(), btn.getWidth(), btn.getHeight())) {
-                btn.setMouseOver(true);
-            } else {
-                btn.setMouseOver(false);
-            }
+            btn.setMouseOver(TowerDefHelper.checkCollision(mousePosition, btn.getPosition(), btn.getWidth(), btn.getHeight()));
         }
 
 

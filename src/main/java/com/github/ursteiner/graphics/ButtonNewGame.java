@@ -8,9 +8,9 @@ public class ButtonNewGame extends AbstractButton {
 
     public ButtonNewGame(GameData gameData){
         super(gameData);
-        this.position = new Point(360, 45);
-        this.width = 105;
-        this.height = 15;
+        this.position = new Point(360 * GameData.ZOOM, 45 * GameData.ZOOM);
+        this.width = 105 * GameData.ZOOM;
+        this.height = 15 * GameData.ZOOM;
     }
     @Override
     public void execute() {

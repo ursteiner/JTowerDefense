@@ -24,7 +24,7 @@ public class Shot {
 		this.bloodMode = bloodMode;
 
 		for (int i = 1; i < 10; i++) {
-			particles.add(new Particle(randomGenerator.nextInt(30) + 40, randomGenerator.nextInt(40)));
+			particles.add(new Particle(randomGenerator.nextInt(30 * GameData.ZOOM) + 40 * GameData.ZOOM, randomGenerator.nextInt(40 * GameData.ZOOM)));
 		}
 
 	}

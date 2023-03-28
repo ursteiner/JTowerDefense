@@ -10,8 +10,8 @@ import java.awt.*;
 @Setter
 public abstract class AbstractButton {
 
-    public int width = 20;
-    public int height = 20;
+    public int width = 20 * GameData.ZOOM;
+    public int height = 20 * GameData.ZOOM;
     public Point position;
     public Hint hint;
 

@@ -9,7 +9,7 @@ public class ButtonShowTowerRadius extends AbstractButton {
 
     public ButtonShowTowerRadius(GameData gameData) {
         super(gameData);
-        this.position = new Point(400, 350);
+        this.position = new Point(400 * GameData.ZOOM, 350 * GameData.ZOOM);
         this.hint = new Hint("Radius", this.position);
     }
 
@@ -29,9 +29,9 @@ public class ButtonShowTowerRadius extends AbstractButton {
             g.setColor(Color.GRAY);
         }
 
-        g.fillOval(getPosition().x + 1, getPosition().y + 1, 10, 10);
-        g.fillOval(getPosition().x + 10, getPosition().y + 5, 10, 10);
-        g.fillOval(getPosition().x + 1, getPosition().y + 9, 10, 10);
+        g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 1 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
+        g.fillOval(getPosition().x + 10 * GameData.ZOOM, getPosition().y + 5 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
+        g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 9 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
 
         if(isMouseOver()){
             TowerDefenseGraphics.paintHint(g, getHint());

@@ -6,8 +6,8 @@ import java.awt.Point;
 public class Tower {
 
 	public static final int MAX_UPGRADE_LEVEL = 3;
-	public static final int TOWER_WIDTH = 20;
-	public static final int TOWER_HEIGHT = 20;
+	public static final int TOWER_WIDTH = 20 * GameData.ZOOM;
+	public static final int TOWER_HEIGHT = 20 * GameData.ZOOM;
 	private final Point pos;
 	private int level;
 	private Point canonEndpoint = new Point();
@@ -17,13 +17,13 @@ public class Tower {
 	private int canonColor;
 	private int strength;
 	private int timeToWait = 20;
-	private double canonLength = 12;
+	private double canonLength = 12 * GameData.ZOOM;
 	private final Type type;
 	private Shot shots;
 	private int upgradeProgress = 0;
 	private boolean upgrade = false;
 
-	public static final int MAX_CANNON_LENGTH = 12;
+	public static final int MAX_CANNON_LENGTH = 12 * GameData.ZOOM;
 
 	public Tower(Point pos, int radius, int reloadTimer, Type type) {
 		super();
@@ -42,7 +42,7 @@ public class Tower {
 			upgradeProgress++;
 		} else {
 			level++;
-			radius += 20;
+			radius += 20 * GameData.ZOOM;
 			timeToWait -= 5;
 			strength += 2;
 			upgrade = false;

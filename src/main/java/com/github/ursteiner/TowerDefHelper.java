@@ -3,7 +3,6 @@ package com.github.ursteiner;
 import com.github.ursteiner.model.*;
 
 import java.awt.Point;
-import java.util.List;
 
 public class TowerDefHelper {
 
@@ -23,8 +22,8 @@ public class TowerDefHelper {
 	public static Point rotateCannon(Point a, Point t, double canonLength) {
 		double d = TowerDefHelper.getDistance(t, a);
 
-		int x = (int) ((canonLength / d) * (a.x - t.x)) + t.x + 10;
-		int y = (int) ((canonLength / d) * (a.y - t.y)) + t.y + 10;
+		int x = (int) ((canonLength / d) * (a.x - t.x)) + t.x + 10 * GameData.ZOOM;
+		int y = (int) ((canonLength / d) * (a.y - t.y)) + t.y + 10 * GameData.ZOOM;
 
 		return new Point(x, y);
 	}
@@ -49,9 +48,8 @@ public class TowerDefHelper {
 			return false;
 		}
 
-		if (t.getLevel() == 1 && gameData.getMoney() >= 100 && gameData.getLevel() >= 4) {
-			return true;
-		} else if (t.getLevel() == 2 && gameData.getMoney() >= 250 && gameData.getLevel() >= 10) {
+		if (t.getLevel() == 1 && gameData.getMoney() >= 100 && gameData.getLevel() >= 4
+				|| t.getLevel() == 2 && gameData.getMoney() >= 250 && gameData.getLevel() >= 10) {
 			return true;
 		}
 
