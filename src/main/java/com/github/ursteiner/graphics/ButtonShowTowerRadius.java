@@ -1,14 +1,16 @@
 package com.github.ursteiner.graphics;
 
 import com.github.ursteiner.model.GameData;
+import com.github.ursteiner.model.Hint;
 
 import java.awt.*;
 
-public class ButtonShowTowerRadius extends Button{
+public class ButtonShowTowerRadius extends AbstractButton {
 
     public ButtonShowTowerRadius(GameData gameData) {
         super(gameData);
         this.position = new Point(400, 350);
+        this.hint = new Hint("Radius", this.position);
     }
 
     @Override
@@ -30,6 +32,10 @@ public class ButtonShowTowerRadius extends Button{
         g.fillOval(getPosition().x + 1, getPosition().y + 1, 10, 10);
         g.fillOval(getPosition().x + 10, getPosition().y + 5, 10, 10);
         g.fillOval(getPosition().x + 1, getPosition().y + 9, 10, 10);
+
+        if(isMouseOver()){
+            TowerDefenseGraphics.paintHint(g, getHint());
+        }
     }
 
     @Override

@@ -1,12 +1,11 @@
 package com.github.ursteiner.graphics;
 
 import com.github.ursteiner.model.GameData;
-import com.github.ursteiner.model.Hint;
 
 import java.awt.*;
 import java.net.URL;
 
-public class ButtonAboutGame extends Button{
+public class ButtonAboutGame extends AbstractButton {
 
     public ButtonAboutGame(GameData gameData) {
         super(gameData);
@@ -14,6 +13,7 @@ public class ButtonAboutGame extends Button{
         this.width = 105;
         this.height = 15;
     }
+
     @Override
     public void execute() {
         Desktop desktop = Desktop.getDesktop();

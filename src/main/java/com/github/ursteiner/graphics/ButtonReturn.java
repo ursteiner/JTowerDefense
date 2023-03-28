@@ -4,7 +4,7 @@ import com.github.ursteiner.model.GameData;
 
 import java.awt.*;
 
-public class ButtonReturn extends Button{
+public class ButtonReturn extends AbstractButton {
 
     public ButtonReturn(GameData gameData) {
         super(gameData);

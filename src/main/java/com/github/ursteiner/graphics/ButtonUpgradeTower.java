@@ -2,14 +2,16 @@ package com.github.ursteiner.graphics;
 
 import com.github.ursteiner.TowerDefHelper;
 import com.github.ursteiner.model.GameData;
+import com.github.ursteiner.model.Hint;
 
 import java.awt.*;
 
-public class ButtonUpgradeTower extends Button {
+public class ButtonUpgradeTower extends AbstractButton {
 
     public ButtonUpgradeTower(GameData gameData) {
         super(gameData);
         this.position =  new Point(370, 350);
+        this.hint = new Hint("Upgrade ", this.position);
     }
 
     @Override
@@ -41,6 +43,10 @@ public class ButtonUpgradeTower extends Button {
 
         g.fillRect(position.x + 1, position.y + 8, 18, 4);
         g.fillRect(position.x + 8, position.y + 1, 4, 18);
+
+        if(isMouseOver()) {
+            TowerDefenseGraphics.paintHint(g, getHint());
+        }
     }
 
     @Override

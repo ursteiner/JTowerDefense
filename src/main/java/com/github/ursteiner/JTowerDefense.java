@@ -24,26 +24,25 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
 
     public static final String VERSION = "1.10";
     private final Point MOUSE_OFFSET = new Point(3, 25);
-    private final Point FASTER_BUTTON = new Point(460, 350);
-    private final Point SLOWER_BUTTON = new Point(460, 360);
-
     private Point selectedMenuButton;
     private final Point roundedMousePos = new Point();
-
     private Hint hint;
     private final GameData gameData = new GameData();
     private final GameMap gameMap = new GameMap();
-    private ButtonUpgradeTower upgradeTowerButton = new ButtonUpgradeTower(gameData);
-    private ButtonShowTowerRadius showTowerRadiusButton = new ButtonShowTowerRadius(gameData);
-    private ButtonOpenMenu openMenuButton = new ButtonOpenMenu(gameData);
-    private ButtonPauseGame pauseGameButton = new ButtonPauseGame(gameData);
-    private ButtonAboutGame aboutGameButton = new ButtonAboutGame(gameData);
-    private ButtonExitGame exitGameButton = new ButtonExitGame(gameData);
-    private ButtonReturn returnButton = new ButtonReturn(gameData);
-    private ButtonNewGame newGameButton = new ButtonNewGame(gameData);
-    private ButtonBloodOption bloodOptionButton = new ButtonBloodOption(gameData);
-    private List<Button> buttonList = List.of(upgradeTowerButton, showTowerRadiusButton, openMenuButton, pauseGameButton, aboutGameButton, exitGameButton, returnButton, newGameButton, bloodOptionButton);
-    private TowerDefenseGraphics graphicsDriver = new TowerDefenseGraphics();
+    private final ButtonUpgradeTower upgradeTowerButton = new ButtonUpgradeTower(gameData);
+    private final ButtonShowTowerRadius showTowerRadiusButton = new ButtonShowTowerRadius(gameData);
+    private final ButtonOpenMenu openMenuButton = new ButtonOpenMenu(gameData);
+    private final ButtonPauseGame pauseGameButton = new ButtonPauseGame(gameData);
+    private final ButtonAboutGame aboutGameButton = new ButtonAboutGame(gameData);
+    private final ButtonExitGame exitGameButton = new ButtonExitGame(gameData);
+    private final ButtonReturn returnButton = new ButtonReturn(gameData);
+    private final ButtonNewGame newGameButton = new ButtonNewGame(gameData);
+    private final ButtonBloodOption bloodOptionButton = new ButtonBloodOption(gameData);
+    private final ButtonFaster fasterButton = new ButtonFaster(gameData);
+    private final ButtonSlower slowerButton = new ButtonSlower(gameData);
+    private final ButtonLife lifeButton = new ButtonLife(gameData);
+    private final List<AbstractButton> buttonList = List.of(upgradeTowerButton, showTowerRadiusButton, openMenuButton, pauseGameButton, aboutGameButton, exitGameButton, returnButton, newGameButton, bloodOptionButton, fasterButton, slowerButton, lifeButton);
+    private final TowerDefenseGraphics graphicsDriver = new TowerDefenseGraphics();
 
     public JTowerDefense() {
         gameData.initGame();
@@ -83,17 +82,20 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                 index++;
             }
 
+            // info about buildable tower
+            if(hint != null){
+                graphicsDriver.paintHint(g, hint);
+            }
+
             // Paint GUI Buttons
             upgradeTowerButton.paintButton(g);
             showTowerRadiusButton.paintButton(g);
             pauseGameButton.paintButton(g);
+            fasterButton.paintButton(g);
+            slowerButton.paintButton(g);
+            lifeButton.paintButton(g);
 
-
-            graphicsDriver.paintFasterButton(g, FASTER_BUTTON);
-            graphicsDriver.paintSlowerButton(g, SLOWER_BUTTON);
-            graphicsDriver.paintSpeedBar(g, FASTER_BUTTON, gameData.getSpeed(), GameData.MIN_SPEED, GameData.MAX_SPEED);
-
-            graphicsDriver.paintFails(g, gameData.getFails());
+            graphicsDriver.paintSpeedBar(g, new Point(460, 350), gameData.getSpeed(), GameData.MIN_SPEED, GameData.MAX_SPEED);
 
 
             // paint Tower to build
@@ -114,7 +116,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
 
         }
 
-        if (gameData.isActiveGameRunning()) {
+        if (gameData.isActiveGameRunning() && !gameData.isInMenu()) {
             // paint status
             graphicsDriver.paintStatus(g, gameData, gameData.getKillList().size());
         }
@@ -176,30 +178,16 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                     gameData.setMoney(gameData.getMoney() - towerToBuild.getType().getCost());
                     gameData.setSelectedTower(gameData.getBuildTowers().size() - 1);
                     gameData.setSelectedBuildTower(-1);
+                    gameData.setSelectedTower(-1);
                 }
 
-                gameData.setSelectedTower(-1);
+
                 setSelectedTower(mousePoint);
             }
 
-            for (Button btn : buttonList) {
+            for (AbstractButton btn : buttonList) {
                 if (TowerDefHelper.checkCollision(mousePoint, btn.getPosition(), btn.getWidth(), btn.getHeight())) {
                     btn.execute();
-                }
-            }
-
-
-            // Button Faster
-            if (TowerDefHelper.checkCollision(mousePoint, FASTER_BUTTON, 10, 10)) {
-                if (gameData.getSpeed() > GameData.MIN_SPEED) {
-                    gameData.setSpeed(gameData.getSpeed() - 5);
-                }
-            }
-
-            // Button Slower
-            if (TowerDefHelper.checkCollision(mousePoint, SLOWER_BUTTON, 10, 10)) {
-                if (gameData.getSpeed() <= GameData.MAX_SPEED - 5) {
-                    gameData.setSpeed(gameData.getSpeed() + 5);
                 }
             }
 
@@ -284,13 +272,8 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
         while (true) {
 
             if (!gameData.isGameOver() && !gameData.isPause()) {
-
-                if (gameData.getTmpMoney() < gameData.getMoney()) {
-                    gameData.setTmpMoney(gameData.getTmpMoney() + 5);
-                } else if (gameData.getTmpMoney() > gameData.getMoney()) {
-                    gameData.setTmpMoney(gameData.getTmpMoney() - 5);
-                }
-
+                //animation
+                gameData.countTmpMoney();
                 gameData.countTmpScore();
 
                 if (allAttackersDead()) {
@@ -311,102 +294,8 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                     b.dryBlood();
                 }
 
-                // move attackers
-                for (Attacker attacker : gameData.getAttackers()) {
-                    if (attacker.isInvisible()) {
-                        attacker.setDetected(false);
-                    }
-
-                    if (attacker.getWaypointIndex() >= gameMap.getWaypoints().size() && !attacker.isMarchedThrough()) {
-                        attacker.setMarchedThrough(true);
-
-                        if (gameData.isGameStarted()) {
-                            gameData.setFails(gameData.getFails() - 1);
-                        }
-
-                    } else if (!attacker.isDead() && attacker.getWaypointIndex() < gameMap.getWaypoints().size()) {
-                        Point targetPoint = gameMap.getWaypoints().get(attacker.getWaypointIndex());
-
-                        if (attacker.getPos().y < targetPoint.y) {
-                            attacker.getPos().y += 1;
-                            attacker.setVx(0);
-                            attacker.setVy(1);
-                        } else if (attacker.getPos().y > targetPoint.y) {
-                            attacker.getPos().y -= 1;
-                            attacker.setVx(0);
-                            attacker.setVy(-1);
-                        } else if (attacker.getPos().x < targetPoint.x) {
-                            attacker.getPos().x += 1;
-                            attacker.setVx(1);
-                            attacker.setVy(0);
-                        } else if (attacker.getPos().x > targetPoint.x) {
-                            attacker.getPos().x -= 1;
-                            attacker.setVx(-1);
-                            attacker.setVy(0);
-                        }
-
-                        if (attacker.getPos().x == targetPoint.x && attacker.getPos().y == targetPoint.y) {
-                            attacker.setWaypointIndex(attacker.getWaypointIndex() + 1);
-                        }
-                    }
-                }
-
-                // detect attackers using detector towers
-                for (Tower tower : gameData.getBuildTowers()) {
-                    for (Attacker attacker : gameData.getAttackers()) {
-                        if (Type.DETECTOR.equals(tower.getType()) && TowerDefHelper.getDistance(tower.getPos(), attacker.getPos()) < tower.getRadius()) {
-                            // Detector tower has detected an attacker
-                            attacker.setDetected(true);
-                        }
-                    }
-                }
-
-                // shoot towers
-                for (Tower tower : gameData.getBuildTowers()) {
-
-                    handleTowerShots(tower);
-
-                    // upgrade counter
-                    if (tower.isInUpgrade()) {
-                        tower.doUpgrade();
-                    }
-
-                    if (tower.getCanonColor() > 10) {
-                        tower.setCanonColor(tower.getCanonColor() - 10);
-                    }
-
-                    boolean towerAnimated = false;
-
-                    for (Attacker attacker : gameData.getAttackers()) {
-
-                        if (!attacker.isDead() && attacker.isDetected() && TowerDefHelper.getDistance(tower.getPos(), attacker.getPos()) < tower.getRadius() && !tower.isInUpgrade()) {
-
-                            if (tower.getType().equals(attacker.getType()) || tower.getType().equals(Type.MIXED)) {
-                                // move tower canon
-                                tower.setCanonEndpoint(TowerDefHelper.rotateCannon(attacker.getPos(), tower.getPos(), tower.getCanonLength()));
-                                tower.setLastAttackerPos(new Point(attacker.getPos().x, attacker.getPos().y));
-                                towerAnimated = true;
-
-                                if (tower.shoot()) {
-                                    attacker.hit(tower.getStrength());
-                                    tower.setCanonLength(1);
-                                    gameData.setScore(gameData.getScore() + tower.getStrength());
-                                    if (attacker.isDead()) {
-                                        gameData.setMoney(gameData.getMoney() + 45);
-                                        gameData.getKillList().add(new Blood(attacker.getPos()));
-                                    }
-                                    tower.setShot(new Shot(attacker.getPos(), gameData.isBloodMode()));
-
-                                }
-                                break;
-                            }
-                        }
-                    }
-
-                    if (!towerAnimated) {
-                        tower.setCanonEndpoint(TowerDefHelper.rotateCannon(tower.getLastAttackerPos(), tower.getPos(), tower.getCanonLength()));
-                    }
-                }
+                moveAttackers();
+                handleTowers();
             }
 
             repaint();
@@ -419,6 +308,105 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
         }
     }
 
+    private void moveAttackers(){
+        for (Attacker attacker : gameData.getAttackers()) {
+            if (attacker.isInvisible()) {
+                attacker.setDetected(false);
+            }
+
+            if (attacker.getWaypointIndex() >= gameMap.getWaypoints().size() && !attacker.isMarchedThrough()) {
+                attacker.setMarchedThrough(true);
+
+                if (gameData.isGameStarted()) {
+                    gameData.setFails(gameData.getFails() - 1);
+                }
+
+            } else if (!attacker.isDead() && attacker.getWaypointIndex() < gameMap.getWaypoints().size()) {
+                Point targetPoint = gameMap.getWaypoints().get(attacker.getWaypointIndex());
+
+                if (attacker.getPos().y < targetPoint.y) {
+                    attacker.getPos().y += 1;
+                    attacker.setVx(0);
+                    attacker.setVy(1);
+                } else if (attacker.getPos().y > targetPoint.y) {
+                    attacker.getPos().y -= 1;
+                    attacker.setVx(0);
+                    attacker.setVy(-1);
+                } else if (attacker.getPos().x < targetPoint.x) {
+                    attacker.getPos().x += 1;
+                    attacker.setVx(1);
+                    attacker.setVy(0);
+                } else if (attacker.getPos().x > targetPoint.x) {
+                    attacker.getPos().x -= 1;
+                    attacker.setVx(-1);
+                    attacker.setVy(0);
+                }
+
+                if (attacker.getPos().x == targetPoint.x && attacker.getPos().y == targetPoint.y) {
+                    attacker.setWaypointIndex(attacker.getWaypointIndex() + 1);
+                }
+            }
+        }
+
+        // detect attackers using detector towers
+        for (Tower tower : gameData.getBuildTowers()) {
+            for (Attacker attacker : gameData.getAttackers()) {
+                if (Type.DETECTOR.equals(tower.getType()) && TowerDefHelper.getDistance(tower.getPos(), attacker.getPos()) < tower.getRadius()) {
+                    // Detector tower has detected an attacker
+                    attacker.setDetected(true);
+                }
+            }
+        }
+    }
+
+    private void handleTowers(){
+        // shoot towers
+        for (Tower tower : gameData.getBuildTowers()) {
+
+            handleTowerShots(tower);
+
+            // upgrade counter
+            if (tower.isInUpgrade()) {
+                tower.doUpgrade();
+            }
+
+            if (tower.getCanonColor() > 10) {
+                tower.setCanonColor(tower.getCanonColor() - 10);
+            }
+
+            boolean towerAnimated = false;
+
+            for (Attacker attacker : gameData.getAttackers()) {
+
+                if (!attacker.isDead() && attacker.isDetected() && TowerDefHelper.getDistance(tower.getPos(), attacker.getPos()) < tower.getRadius() && !tower.isInUpgrade()) {
+
+                    if (tower.getType().equals(attacker.getType()) || tower.getType().equals(Type.MIXED)) {
+                        // move tower canon
+                        tower.setCanonEndpoint(TowerDefHelper.rotateCannon(attacker.getPos(), tower.getPos(), tower.getCanonLength()));
+                        tower.setLastAttackerPos(new Point(attacker.getPos().x, attacker.getPos().y));
+                        towerAnimated = true;
+
+                        if (tower.shoot()) {
+                            attacker.hit(tower.getStrength());
+                            tower.setCanonLength(1);
+                            gameData.setScore(gameData.getScore() + tower.getStrength());
+                            if (attacker.isDead()) {
+                                gameData.setMoney(gameData.getMoney() + 45);
+                                gameData.getKillList().add(new Blood(attacker.getPos()));
+                            }
+                            tower.setShot(new Shot(attacker.getPos(), gameData.isBloodMode()));
+
+                        }
+                        break;
+                    }
+                }
+            }
+
+            if (!towerAnimated) {
+                tower.setCanonEndpoint(TowerDefHelper.rotateCannon(tower.getLastAttackerPos(), tower.getPos(), tower.getCanonLength()));
+            }
+        }
+    }
 
     private void handleTowerShots(Tower t) {
         boolean removeShot = false;
@@ -458,12 +446,10 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
         roundedMousePos.y = roundMy;
 
         selectedMenuButton = null;
-        // set info texts;
 
-        hint = new Hint("", new Point(0, 0));
         Point mousePosition = new Point(x, y);
 
-        for (Button btn : buttonList) {
+        for (AbstractButton btn : buttonList) {
             if (TowerDefHelper.checkCollision(mousePosition, btn.getPosition(), btn.getWidth(), btn.getHeight())) {
                 btn.setMouseOver(true);
             } else {
@@ -471,26 +457,16 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
             }
         }
 
-        //TODO REMOVE
-        if (TowerDefHelper.checkCollision(mousePosition, showTowerRadiusButton.getPosition(), Tower.TOWER_WIDTH, Tower.TOWER_HEIGHT)) {
-            // Button radius
-            hint = new Hint("show radius", showTowerRadiusButton.getPosition());
-        } else if (TowerDefHelper.checkCollision(mousePosition, openMenuButton.getPosition(), Tower.TOWER_WIDTH, Tower.TOWER_HEIGHT)) {
-            hint = new Hint("   menu", new Point(openMenuButton.getPosition().x - 2, openMenuButton.getPosition().y));
-        } else if (TowerDefHelper.checkCollision(mousePosition, FASTER_BUTTON, Tower.TOWER_WIDTH, Tower.TOWER_HEIGHT)) {
-            hint = new Hint("   speed", new Point(FASTER_BUTTON.x - 5, FASTER_BUTTON.y));
-        } else if (TowerDefHelper.checkCollision(mousePosition, new Point(360, 350), 5, 20)) {
-            hint = new Hint("life " + gameData.getFails() + "/5", new Point(360, 350));
-        } else {
-            for (Tower tower : gameData.getAvailableTowers()) {
-                if (TowerDefHelper.checkCollision(mousePosition, tower.getPos(), Tower.TOWER_WIDTH, Tower.TOWER_HEIGHT)) {
 
-                    Type type = tower.getType();
-                    hint = new Hint("  " + type.getCost() + "$ " + type.getDescription(), tower.getPos());
-                    break;
-                }
+        for (Tower tower : gameData.getAvailableTowers()) {
+            if (TowerDefHelper.checkCollision(mousePosition, tower.getPos(), Tower.TOWER_WIDTH, Tower.TOWER_HEIGHT)) {
+
+                Type type = tower.getType();
+                hint = new Hint(type.getCost() + "$ " + type.getDescription(), tower.getPos());
+                break;
             }
         }
+
     }
 
     @Override

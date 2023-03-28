@@ -5,7 +5,7 @@ import com.github.ursteiner.model.Hint;
 
 import java.awt.*;
 
-public class ButtonPauseGame extends Button{
+public class ButtonPauseGame extends AbstractButton {
 
     public ButtonPauseGame(GameData gameData) {
         super(gameData);

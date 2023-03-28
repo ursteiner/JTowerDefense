@@ -79,6 +79,14 @@ public class GameData {
         }
     }
 
+    public void countTmpMoney(){
+        if (getTmpMoney() < getMoney()) {
+            setTmpMoney(getTmpMoney() + 5);
+        } else if (getTmpMoney() > getMoney()) {
+            setTmpMoney(getTmpMoney() - 5);
+        }
+    }
+
     public void addAttackersForLevel() {
         // init new Round
         attackers.clear();

@@ -4,7 +4,7 @@ import com.github.ursteiner.model.GameData;
 
 import java.awt.*;
 
-public class ButtonOpenMenu extends Button{
+public class ButtonOpenMenu extends AbstractButton {
 
     public ButtonOpenMenu(GameData gameData) {
         super(gameData);

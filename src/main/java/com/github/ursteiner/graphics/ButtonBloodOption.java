@@ -4,7 +4,7 @@ import com.github.ursteiner.model.GameData;
 
 import java.awt.*;
 
-public class ButtonBloodOption extends Button{
+public class ButtonBloodOption extends AbstractButton {
 
     public ButtonBloodOption(GameData gameData){
         super(gameData);

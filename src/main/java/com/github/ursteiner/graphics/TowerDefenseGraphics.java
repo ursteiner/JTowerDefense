@@ -94,26 +94,7 @@ public class TowerDefenseGraphics {
 	public static void paintHint(Graphics g, Hint h) {
 		g.setColor(Color.DARK_GRAY);
 		g.setFont(BASIC_FONT);
-		g.drawString(h.getText(), h.getP().x - 10, h.getP().y + 35);
-	}
-
-	public void paintFasterButton(Graphics g, Point button) {
-		g.setColor(Color.BLACK);
-		g.fillRect(button.x, button.y, 10, 9);
-
-		g.setColor(Color.WHITE);
-
-		g.fillRect(button.x + 1, button.y + 4, 8, 2);
-		g.fillRect(button.x + 4, button.y + 1, 2, 8);
-	}
-
-	public void paintSlowerButton(Graphics g, Point button) {
-		g.setColor(Color.BLACK);
-		g.fillRect(button.x, button.y, 10, 10);
-
-		g.setColor(Color.WHITE);
-
-		g.fillRect(button.x + 1, button.y + 4, 8, 2);
+		g.drawString(h.getText(), h.getP().x, h.getP().y + 35);
 	}
 
 	public void paintSpeedBar(Graphics g, Point p, int speed, int min, int max) {
@@ -133,13 +114,6 @@ public class TowerDefenseGraphics {
 		Point towerCenter = new Point(tower.getPos().x + TOWER_WIDTH / 2, tower.getPos().y + TOWER_WIDTH / 2);
 		int d = tower.getRadius() * 2;
 		g.fillOval(towerCenter.x - tower.getRadius(), towerCenter.y - tower.getRadius(), d, d);
-	}
-
-	public void paintFails(Graphics g, int fails) {
-		g.setColor(Color.RED);
-		g.fillRect(360, 350, 5, 20);
-		g.setColor(Color.GREEN);
-		g.fillRect(360, 350 + (4 * (5 - fails)), 5, 20 - (4 * (5 - fails)));
 	}
 
 	public void paintGameField(Graphics g, GameMap gameMap, GameData gameData) {
@@ -177,7 +151,7 @@ public class TowerDefenseGraphics {
 		backgroundGenerated = true;
 	}
 
-	public void paintTower(Graphics g, Tower tower, GameData gameData, boolean showupgrade, boolean drawAvailableTower) {
+	public void paintTower(Graphics g, Tower tower, GameData gameData, boolean showUpgrade, boolean drawAvailableTower) {
 
 		// paint towers
 		if (drawAvailableTower) {
@@ -232,7 +206,7 @@ public class TowerDefenseGraphics {
 				g.fillRect(tower.getPos().x + (i * 3), tower.getPos().y + 17, 2, 2);
 			}
 
-			if (showupgrade && TowerDefHelper.canUpgrade(tower, gameData)) {
+			if (showUpgrade && TowerDefHelper.canUpgrade(tower, gameData)) {
 				g.setColor(Color.GREEN);
 				g.fillRect(tower.getPos().x + 14, tower.getPos().y + 2, 6, 2);
 				g.fillRect(tower.getPos().x + 14 + 2, tower.getPos().y, 2, 6);

@@ -8,7 +8,7 @@ import lombok.Setter;
 import java.awt.*;
 @Getter
 @Setter
-public abstract class Button {
+public abstract class AbstractButton {
 
     public int width = 20;
     public int height = 20;
@@ -18,7 +18,7 @@ public abstract class Button {
     private GameData gameData;
     private boolean mouseOver;
 
-    public Button(GameData gameData){
+    public AbstractButton(GameData gameData){
         this.gameData = gameData;
     }
 
