@@ -14,7 +14,9 @@ public class ButtonBloodOption extends AbstractButton {
     }
     @Override
     public void execute() {
-        getGameData().setBloodMode(!getGameData().isBloodMode());
+        if(isButtonVisible()) {
+            getGameData().setBloodMode(!getGameData().isBloodMode());
+        }
     }
 
     @Override

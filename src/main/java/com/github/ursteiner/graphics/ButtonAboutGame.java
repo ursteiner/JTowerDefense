@@ -16,15 +16,17 @@ public class ButtonAboutGame extends AbstractButton {
 
     @Override
     public void execute() {
-        Desktop desktop = Desktop.getDesktop();
+        if(isButtonVisible()) {
+            Desktop desktop = Desktop.getDesktop();
 
-        if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
-            URL url;
-            try {
-                url = new URL("https://github.com/ursteiner/JTowerDefense");
-                desktop.browse(url.toURI());
-            } catch (Exception ex) {
-                ex.printStackTrace();
+            if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
+                URL url;
+                try {
+                    url = new URL("https://github.com/ursteiner/JTowerDefense");
+                    desktop.browse(url.toURI());
+                } catch (Exception ex) {
+                    ex.printStackTrace();
+                }
             }
         }
     }

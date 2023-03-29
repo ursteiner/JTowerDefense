@@ -43,7 +43,6 @@ public class TowerDefHelper {
 	}
 
 	public static boolean canUpgrade(Tower t, GameData gameData) {
-
 		if (Type.DETECTOR.equals(t.getType())) {
 			return false;
 		}

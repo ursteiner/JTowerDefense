@@ -14,9 +14,11 @@ public class ButtonNewGame extends AbstractButton {
     }
     @Override
     public void execute() {
-        getGameData().setInMenu(false);
-        getGameData().initGame();
-        getGameData().setGameStarted(true);
+        if(isButtonVisible()) {
+            getGameData().setInMenu(false);
+            getGameData().initGame();
+            getGameData().setGameStarted(true);
+        }
     }
 
     @Override

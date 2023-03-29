@@ -14,9 +14,11 @@ public class ButtonReturn extends AbstractButton {
     }
     @Override
     public void execute() {
-        if (getGameData().isGameStarted() && !getGameData().isGameOver()) {
-            getGameData().setPause(false);
-            getGameData().setInMenu(false);
+        if(isButtonVisible()){
+            if (getGameData().isGameStarted() && !getGameData().isGameOver()) {
+                getGameData().setPause(false);
+                getGameData().setInMenu(false);
+            }
         }
     }
 

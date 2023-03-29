@@ -14,7 +14,9 @@ public class ButtonExitGame extends AbstractButton {
     }
     @Override
     public void execute() {
-        System.exit(0);
+        if(isButtonVisible()){
+            System.exit(0);
+        }
     }
 
     @Override

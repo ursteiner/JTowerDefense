@@ -75,6 +75,7 @@ public class TowerDefenseGraphics {
 
 		if (isMouseOver) {
 			g.setColor(Color.WHITE);
+			g.drawRect(b.x + 8 * GameData.ZOOM, (b.y + 15 * GameData.ZOOM / 2 - 1), 2 * GameData.ZOOM, 2 * GameData.ZOOM);
 		} else {
 			g.setColor(Color.LIGHT_GRAY);
 		}
@@ -255,25 +256,32 @@ public class TowerDefenseGraphics {
 
 				// draw eyes
 				g.setColor(Color.WHITE);
-				if (attacker.getVy() != -1) {
-					if (attacker.getVx() == 0) {
-						g.fillOval(attacker.getPos().x + 5 * GameData.ZOOM, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
-						g.fillOval(attacker.getPos().x + 12 * GameData.ZOOM, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
+
+				int whiteLeftEyePosX = attacker.getPos().x + 7 * GameData.ZOOM;
+				int whiteRightEyePosX = attacker.getPos().x + 13 * GameData.ZOOM;
+
+				int blackLeftEyePosX = attacker.getPos().x + 8 * GameData.ZOOM;
+				int blackRightEyePosX = attacker.getPos().x + 14 * GameData.ZOOM;
+
+				if(attacker.getVy() >=0) {
+					if (attacker.getVx() > 0) {
+						g.fillOval(whiteLeftEyePosX, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
+						g.fillOval(whiteRightEyePosX, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
 						g.setColor(Color.BLACK);
-						g.fillOval(attacker.getPos().x + 6 * GameData.ZOOM, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
-						g.fillOval(attacker.getPos().x + 13 * GameData.ZOOM, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
-					} else if (attacker.getVx() == 1 * GameData.ZOOM) {
-						g.fillOval(attacker.getPos().x + 7 * GameData.ZOOM, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
-						g.fillOval(attacker.getPos().x + 13 * GameData.ZOOM, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
+						g.fillOval(blackLeftEyePosX, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
+						g.fillOval(blackRightEyePosX, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
+					} else if (attacker.getVx() == 0) {
+						g.fillOval(whiteLeftEyePosX - 3, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
+						g.fillOval(whiteRightEyePosX - 3, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
 						g.setColor(Color.BLACK);
-						g.fillOval(attacker.getPos().x + 8 * GameData.ZOOM, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
-						g.fillOval(attacker.getPos().x + 14 * GameData.ZOOM, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
+						g.fillOval(blackLeftEyePosX - 4, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
+						g.fillOval(blackRightEyePosX - 4, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
 					} else {
-						g.fillOval(attacker.getPos().x + 4 * GameData.ZOOM, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
-						g.fillOval(attacker.getPos().x + 10 * GameData.ZOOM, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
+						g.fillOval(whiteLeftEyePosX - 4, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
+						g.fillOval(whiteRightEyePosX - 4, attacker.getPos().y + 8 * GameData.ZOOM, 3 * GameData.ZOOM, 3 * GameData.ZOOM);
 						g.setColor(Color.BLACK);
-						g.fillOval(attacker.getPos().x + 5 * GameData.ZOOM, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
-						g.fillOval(attacker.getPos().x + 11 * GameData.ZOOM, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
+						g.fillOval(blackLeftEyePosX - 5, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
+						g.fillOval(blackRightEyePosX - 5, attacker.getPos().y + 9 * GameData.ZOOM, 2 * GameData.ZOOM, 2 * GameData.ZOOM);
 					}
 				}
 			}
