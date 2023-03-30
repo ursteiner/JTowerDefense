@@ -9,7 +9,7 @@ public class TowerDefHelper {
 	private static final double g = 9.81d;
 
 	/**
-	 * d = Wurzel((x1-x2)^2+(y1-y2)^2)
+	 * d = root((x1-x2)^2+(y1-y2)^2)
 	 * 
 	 * @param p1 Point to compare
 	 * @param p2 Point to compare
@@ -43,15 +43,12 @@ public class TowerDefHelper {
 	}
 
 	public static boolean canUpgrade(Tower t, GameData gameData) {
-		if (Type.DETECTOR.equals(t.getType())) {
-			return false;
+		if (!Type.DETECTOR.equals(t.getType())) {
+			if (t.getLevel() == 1 && gameData.getMoney() >= 100 && gameData.getLevel() >= 4
+					|| t.getLevel() == 2 && gameData.getMoney() >= 250 && gameData.getLevel() >= 10) {
+				return true;
+			}
 		}
-
-		if (t.getLevel() == 1 && gameData.getMoney() >= 100 && gameData.getLevel() >= 4
-				|| t.getLevel() == 2 && gameData.getMoney() >= 250 && gameData.getLevel() >= 10) {
-			return true;
-		}
-
 		return false;
 	}
 

@@ -10,7 +10,7 @@ public class ButtonLife extends AbstractButton {
     public ButtonLife(GameData gameData){
        super(gameData);
        this.position = new Point(360 * GameData.ZOOM, 350 * GameData.ZOOM);
-       this.width = 10 * GameData.ZOOM;
+       this.width = 5 * GameData.ZOOM;
        this.height = 20 * GameData.ZOOM;
        this.hint = new Hint("life " + gameData.getFails() + "/5", new Point(360 * GameData.ZOOM, 350 * GameData.ZOOM));
     }
@@ -22,10 +22,12 @@ public class ButtonLife extends AbstractButton {
 
     @Override
     public void paintButton(Graphics g) {
+        int healthHeight = (height / 5) * getGameData().getFails();
+
         g.setColor(Color.RED);
-        g.fillRect(getPosition().x, getPosition().y, 5 * GameData.ZOOM, 20 * GameData.ZOOM);
+        g.fillRect(getPosition().x, getPosition().y, width, height);
         g.setColor(Color.GREEN);
-        g.fillRect(getPosition().x, getPosition().y + (4 * (5 - getGameData().getFails())), 5 * GameData.ZOOM, 20 * GameData.ZOOM - (4 * GameData.ZOOM * (5 * GameData.ZOOM - getGameData().getFails())));
+        g.fillRect(getPosition().x, getPosition().y + height - healthHeight, width, healthHeight);
 
         if(isMouseOver()) {
             TowerDefenseGraphics.paintHint(g, getHint());

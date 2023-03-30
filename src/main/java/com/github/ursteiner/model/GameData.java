@@ -54,7 +54,7 @@ public class GameData {
         setMoney(150);
         setTmpMoney(0);
         setFails(5);
-        setSpeed(35);
+        setSpeed(5);
         setPause(false);
         setGameOver(false);
         setScore(0);

@@ -18,8 +18,8 @@ public class ButtonFaster extends AbstractButton{
     @Override
     public void execute() {
         if(isButtonVisible()) {
-            if (getGameData().getSpeed() > GameData.MIN_SPEED) {
-                getGameData().setSpeed(getGameData().getSpeed() - 5);
+            if (getGameData().getSpeed() <= GameData.MAX_SPEED - 5) {
+                getGameData().setSpeed(getGameData().getSpeed() + 5);
             }
         }
     }
@@ -27,7 +27,7 @@ public class ButtonFaster extends AbstractButton{
     @Override
     public void paintButton(Graphics g) {
         g.setColor(Color.BLACK);
-        g.fillRect(getPosition().x, getPosition().y, 10 * GameData.ZOOM, 9 * GameData.ZOOM);
+        g.fillRect(getPosition().x, getPosition().y, width, height);
 
         g.setColor(Color.WHITE);
 

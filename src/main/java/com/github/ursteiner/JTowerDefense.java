@@ -9,7 +9,6 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
-import java.awt.geom.AffineTransform;
 import java.util.List;
 
 import javax.swing.ImageIcon;
@@ -40,7 +39,6 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     private final ButtonLife lifeButton = new ButtonLife(gameData);
     private final List<AbstractButton> buttonList = List.of(upgradeTowerButton, showTowerRadiusButton, openMenuButton, pauseGameButton, aboutGameButton, exitGameButton, returnButton, newGameButton, bloodOptionButton, fasterButton, slowerButton, lifeButton);
     private final TowerDefenseGraphics graphicsDriver = new TowerDefenseGraphics();
-    private boolean zoom = true;
 
     public JTowerDefense() {
         gameData.initGame();
@@ -52,15 +50,6 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
-        /**
-        if(zoom) {
-            Graphics2D g2 = (Graphics2D) g;
-            AffineTransform at = new AffineTransform();
-            at.scale(2, 2);
-
-            g2.transform(at);
-            //zoom = false;
-        }*/
 
         graphicsDriver.paintGameField(g, gameMap, gameData);
         graphicsDriver.paintAttackers(g, gameData.getAttackers());
@@ -308,7 +297,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
             repaint();
 
             try {
-                Thread.sleep(gameData.getSpeed());
+                Thread.sleep(gameData.MAX_SPEED + 1 - gameData.getSpeed());
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

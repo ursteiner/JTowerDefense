@@ -107,12 +107,13 @@ public class TowerDefenseGraphics {
 
 	public void paintSpeedBar(Graphics g, Point p, int speed, int min, int max) {
 
-		double factor = 20d / max;
+		double speedHeight = ((20d * GameData.ZOOM) / max) * speed;
 
 		g.setColor(Color.DARK_GRAY);
 		g.fillRect(p.x + 11 * GameData.ZOOM, p.y, 5 * GameData.ZOOM, 20 * GameData.ZOOM);
 		g.setColor(new Color(77, 167, 232));
-		g.fillRect(p.x + 11 * GameData.ZOOM, -2  * GameData.ZOOM + (int) (p.y + (speed) * factor), 5 * GameData.ZOOM, 20 * GameData.ZOOM - (int) ((speed - min) * factor));
+		g.fillRect(p.x + 11 * GameData.ZOOM, p.y + (20 * GameData.ZOOM) - (int)speedHeight, 5 * GameData.ZOOM, (int)speedHeight);
+
 	}
 
 	public void paintTowerRadius(Graphics g, Tower tower) {
