@@ -10,7 +10,7 @@ public class ButtonFaster extends AbstractButton{
     public ButtonFaster(GameData gameData) {
         super(gameData);
         this.position = new Point(460 * GameData.ZOOM, 350 * GameData.ZOOM);
-        this.hint = new Hint("speed", new Point(getPosition().x - 5 * GameData.ZOOM, getPosition().y));
+        this.hint = new Hint("faster", new Point(getPosition().x - 5 * GameData.ZOOM, getPosition().y));
         this.width = 10 * GameData.ZOOM;
         this.height = 9 * GameData.ZOOM;
     }

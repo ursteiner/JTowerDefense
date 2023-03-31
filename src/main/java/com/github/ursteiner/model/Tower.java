@@ -10,7 +10,7 @@ public class Tower {
 	public static final int TOWER_HEIGHT = 20 * GameData.ZOOM;
 	private final Point pos;
 	private int level;
-	private Point canonEndpoint = new Point();
+	private Point canonEndpoint;
 	private Point lastAttackerPos = new Point();
 	private int radius;
 	private int reloadTimer;

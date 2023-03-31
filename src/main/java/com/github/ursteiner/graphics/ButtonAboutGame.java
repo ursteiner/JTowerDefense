@@ -7,6 +7,8 @@ import java.net.URL;
 
 public class ButtonAboutGame extends AbstractButton {
 
+    public static final String URL = "https://github.com/ursteiner/JTowerDefense";
+
     public ButtonAboutGame(GameData gameData) {
         super(gameData);
         this.position = new Point(360 * GameData.ZOOM, 105 * GameData.ZOOM);
@@ -22,7 +24,7 @@ public class ButtonAboutGame extends AbstractButton {
             if (desktop.isSupported(java.awt.Desktop.Action.BROWSE)) {
                 URL url;
                 try {
-                    url = new URL("https://github.com/ursteiner/JTowerDefense");
+                    url = new URL(URL);
                     desktop.browse(url.toURI());
                 } catch (Exception ex) {
                     ex.printStackTrace();

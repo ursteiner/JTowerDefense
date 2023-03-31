@@ -15,7 +15,7 @@ public class GameMap {
     private final List<Point> sea = new ArrayList<>();
 
     public GameMap(){
-        waypoints.add(new Point(0 * GameData.ZOOM, 40 * GameData.ZOOM));
+        waypoints.add(new Point(0, 40 * GameData.ZOOM));
         waypoints.add(new Point(20 * GameData.ZOOM, 40 * GameData.ZOOM));
         waypoints.add(new Point(40 * GameData.ZOOM, 40 * GameData.ZOOM));
         waypoints.add(new Point(60 * GameData.ZOOM, 40 * GameData.ZOOM));

@@ -1,7 +1,6 @@
 package com.github.ursteiner;
 
 import com.github.ursteiner.model.*;
-
 import java.awt.Point;
 
 public class TowerDefHelper {

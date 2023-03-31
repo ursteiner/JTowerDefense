@@ -16,13 +16,13 @@ public class ButtonUpgradeTower extends AbstractButton {
 
     @Override
     public void execute() {
-        if (getGameData().getSelectedTower() != -1) {
-            if (getGameData().getMoney() >= 100 && TowerDefHelper.canUpgrade(getGameData().getBuildTowers().get(getGameData().getSelectedTower()), getGameData())) {
-                getGameData().getBuildTowers().get(getGameData().getSelectedTower()).upgrade();
+        if (getGameData().getSelectedTower() != null) {
+            if (getGameData().getMoney() >= 100 && TowerDefHelper.canUpgrade(getGameData().getSelectedTower(), getGameData())) {
+                getGameData().getSelectedTower().upgrade();
                 getGameData().setMoney(getGameData().getMoney() - 100);
                 //repaint();
-            } else if (getGameData().getMoney() >= 250 && TowerDefHelper.canUpgrade(getGameData().getBuildTowers().get(getGameData().getSelectedTower()), getGameData())) {
-                getGameData().getBuildTowers().get(getGameData().getSelectedTower()).upgrade();
+            } else if (getGameData().getMoney() >= 250 && TowerDefHelper.canUpgrade(getGameData().getSelectedTower(), getGameData())) {
+                getGameData().getSelectedTower().upgrade();
                 getGameData().setMoney(getGameData().getMoney() - 300);
                 //repaint();
             }
@@ -51,7 +51,7 @@ public class ButtonUpgradeTower extends AbstractButton {
 
     @Override
     public boolean isButtonEnabled() {
-        return getGameData().getSelectedTower() != -1 && TowerDefHelper.canUpgrade(getGameData().getBuildTowers().get(getGameData().getSelectedTower()), getGameData());
+        return getGameData().getSelectedTower() != null && TowerDefHelper.canUpgrade(getGameData().getSelectedTower(), getGameData());
     }
 
     @Override

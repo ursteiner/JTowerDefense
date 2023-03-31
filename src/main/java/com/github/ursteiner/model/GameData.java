@@ -12,8 +12,8 @@ public class GameData {
     public static final int MAX_SPEED = 45;
     public static int ZOOM = 2;
     private List<Tower> buildTowers = new ArrayList<>();
-    private int selectedTower;
-    private int selectedBuildTower;
+    private Tower selectedTower;
+    private Tower selectedBuildTower;
     private final List<Attacker> attackers = new ArrayList<>();
     private final List<Tower> availableTowers = new ArrayList<>();
     private List<Blood> killList = new ArrayList<>();
@@ -63,8 +63,8 @@ public class GameData {
 
         initAvailableTowers();
 
-        setSelectedBuildTower(-1);
-        setSelectedTower(-1);
+        setSelectedBuildTower(null);
+        setSelectedTower(null);
     }
 
     /**

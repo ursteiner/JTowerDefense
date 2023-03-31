@@ -35,6 +35,6 @@ public class ButtonOpenMenu extends AbstractButton {
 
     @Override
     public boolean isButtonVisible() {
-        return false;
+        return getGameData().isGameOver();
     }
 }

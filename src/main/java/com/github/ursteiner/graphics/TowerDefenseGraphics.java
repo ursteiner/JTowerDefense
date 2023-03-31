@@ -18,11 +18,11 @@ import javax.swing.ImageIcon;
 
 public class TowerDefenseGraphics {
 
-	private final int TOWER_WIDTH = 20 * GameData.ZOOM;
-	private final int TOWER_HEIGHT = 20 * GameData.ZOOM;
+	private static final int TOWER_WIDTH = 20 * GameData.ZOOM;
+	private static final int TOWER_HEIGHT = 20 * GameData.ZOOM;
 	private final BasicStroke LINE_WIDTH_3 = new BasicStroke(3 * GameData.ZOOM);
 	private static final BasicStroke LINE_WIDTH_2 = new BasicStroke(2 * GameData.ZOOM);
-	private final BasicStroke LINE_WIDTH_1 = new BasicStroke(1 * GameData.ZOOM);
+	private final BasicStroke LINE_WIDTH_1 = new BasicStroke(GameData.ZOOM);
 	public static final Font FONT_GAME_OVER = new Font("SansSerif", Font.BOLD, 25 * GameData.ZOOM);
 	private static final String FONT_NAME = "SansSerif";
 	public static final Font FONT_MENU = new Font(FONT_NAME, Font.BOLD, 14 * GameData.ZOOM);
@@ -46,7 +46,7 @@ public class TowerDefenseGraphics {
 		return new ImageIcon(bi).getImage();
 	}
 
-	private void paintShots(Graphics g, Tower tower) {
+	private static void paintShots(Graphics g, Tower tower) {
 
 		Shot shot = tower.getShots();
 		if (shot != null) {
@@ -83,18 +83,21 @@ public class TowerDefenseGraphics {
 		g.drawString(text, b.x + 15 * GameData.ZOOM, b.y + 12 * GameData.ZOOM);
 	}
 
-	public void paintTowerSelection(Graphics g, Tower tower) {
+	public static void paintTowerSelection(Graphics g, Tower tower) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(LINE_WIDTH_2);
 		g.setColor(Color.RED);
-		g.drawRect(tower.getPos().x - 1 * GameData.ZOOM, tower.getPos().y - 1 * GameData.ZOOM, TOWER_WIDTH + 2, TOWER_HEIGHT + 2);
+		g.drawRect(tower.getPos().x - GameData.ZOOM, tower.getPos().y - GameData.ZOOM, TOWER_WIDTH + 2, TOWER_HEIGHT + 2);
 	}
 
-	public void paintStatus(Graphics g, GameData gameData, int kills) {
-		g.setColor(Color.DARK_GRAY);
+	public static void paintStatus(Graphics g, GameData gameData, int kills) {
+		g.setColor(Color.black);
+		g.fillRect(110 * GameData.ZOOM, 350 * GameData.ZOOM, 245 * GameData.ZOOM, 20 * GameData.ZOOM);
+
+		g.setColor(Color.WHITE);
 		g.setFont(BASIC_FONT);
-		g.drawString("lvl: " + gameData.getLevel(), 110 * GameData.ZOOM, 365 * GameData.ZOOM);
-		g.drawString("" + gameData.getMoney() + " $", 150 * GameData.ZOOM, 365 * GameData.ZOOM);
+		g.drawString(" lvl: " + gameData.getLevel(), 110 * GameData.ZOOM, 365 * GameData.ZOOM);
+		g.drawString(gameData.getTmpMoney() + " $", 150 * GameData.ZOOM, 365 * GameData.ZOOM);
 		g.drawString("score: " + gameData.getScore(), 210 * GameData.ZOOM, 365 * GameData.ZOOM);
 		g.drawString("kills: " + kills, 300 * GameData.ZOOM, 365 * GameData.ZOOM);
 	}
@@ -105,7 +108,7 @@ public class TowerDefenseGraphics {
 		g.drawString(h.getText(), h.getP().x, h.getP().y + 35 * GameData.ZOOM);
 	}
 
-	public void paintSpeedBar(Graphics g, Point p, int speed, int min, int max) {
+	public static void paintSpeedBar(Graphics g, Point p, int speed, int max) {
 
 		double speedHeight = ((20d * GameData.ZOOM) / max) * speed;
 
@@ -116,7 +119,7 @@ public class TowerDefenseGraphics {
 
 	}
 
-	public void paintTowerRadius(Graphics g, Tower tower) {
+	public static void paintTowerRadius(Graphics g, Tower tower) {
 		Graphics2D g2d = (Graphics2D) g;
 		g2d.setStroke(LINE_WIDTH_2);
 		g.setColor(new Color(0.5f, 0.5f, 0.5f, 0.4f));
