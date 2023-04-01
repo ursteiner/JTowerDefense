@@ -22,15 +22,17 @@ public class ButtonLife extends AbstractButton {
 
     @Override
     public void paintButton(Graphics g) {
-        int healthHeight = (height / 5) * getGameData().getFails();
+        if(isButtonVisible()) {
+            int healthHeight = (height / 5) * getGameData().getFails();
 
-        g.setColor(Color.RED);
-        g.fillRect(getPosition().x, getPosition().y, width, height);
-        g.setColor(Color.GREEN);
-        g.fillRect(getPosition().x, getPosition().y + height - healthHeight, width, healthHeight);
+            g.setColor(Color.RED);
+            g.fillRect(getPosition().x, getPosition().y, width, height);
+            g.setColor(Color.GREEN);
+            g.fillRect(getPosition().x, getPosition().y + height - healthHeight, width, healthHeight);
 
-        if(isMouseOver()) {
-            TowerDefenseGraphics.paintHint(g, getHint());
+            if (isMouseOver()) {
+                TowerDefenseGraphics.paintHint(g, getHint());
+            }
         }
     }
 
@@ -41,6 +43,6 @@ public class ButtonLife extends AbstractButton {
 
     @Override
     public boolean isButtonVisible() {
-        return false;
+        return !getGameData().isInMenu();
     }
 }

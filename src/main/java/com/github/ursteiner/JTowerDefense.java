@@ -23,7 +23,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     public static final String VERSION = "1.10";
     private final Point MOUSE_OFFSET = new Point(3, 25);
     private final Point roundedMousePos = new Point();
-    private Hint hint = new Hint("", new Point(0,0));
+    private final Hint hint = new Hint("", new Point(0,0));
     private final GameData gameData = new GameData();
     private final GameMap gameMap = new GameMap();
     private final ButtonUpgradeTower upgradeTowerButton = new ButtonUpgradeTower(gameData);
@@ -49,12 +49,36 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
         thread.start();
     }
 
+    public static void main(String[] args) {
+        JFrame frame = new JFrame("TowerDefense " + VERSION);
+        JTowerDefense td = new JTowerDefense();
+        frame.setSize(1000, 860);
+
+        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
+        int x = (d.width - frame.getSize().width) / 2;
+        int y = (d.height - frame.getSize().height) / 2;
+        frame.setLocation(x, y);
+        frame.addMouseMotionListener(td);
+        frame.addKeyListener(td);
+
+        frame.setIconImage(new ImageIcon(Objects.requireNonNull(TowerDefenseGraphics.class.getResource("td.png"))).getImage());
+        frame.add(td);
+        frame.addMouseListener(td);
+        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        frame.setResizable(false);
+        frame.setVisible(true);
+    }
+
     @Override
     public void paintComponent(Graphics g) {
         super.paintComponent(g);
 
         graphicsDriver.paintGameField(g, gameMap, gameData);
         graphicsDriver.paintAttackers(g, gameData.getAttackers());
+
+        for(AbstractButton btn: buttonList){
+            btn.paintButton(g);
+        }
 
         // paint build towers
         for (Tower tower : gameData.getBuildTowers()) {
@@ -79,16 +103,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
             // info about buildable tower
             TowerDefenseGraphics.paintHint(g, hint);
 
-            // Paint GUI Buttons
-            upgradeTowerButton.paintButton(g);
-            showTowerRadiusButton.paintButton(g);
-            pauseGameButton.paintButton(g);
-            fasterButton.paintButton(g);
-            slowerButton.paintButton(g);
-            lifeButton.paintButton(g);
-
             TowerDefenseGraphics.paintSpeedBar(g, new Point(460 * GameData.ZOOM, 350 * GameData.ZOOM), gameData.getSpeed(), GameData.MAX_SPEED);
-
 
             // paint Tower to build
             if (gameData.getSelectedBuildTower() != null) {
@@ -98,14 +113,6 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                     TowerDefenseGraphics.paintTowerRadius(g, tmp);
                 }
             }
-        } else {
-            openMenuButton.paintButton(g);
-            newGameButton.paintButton(g);
-            returnButton.paintButton(g);
-            bloodOptionButton.paintButton(g);
-            aboutGameButton.paintButton(g);
-            exitGameButton.paintButton(g);
-
         }
 
         if (gameData.isActiveGameRunning() && !gameData.isInMenu()) {
@@ -114,24 +121,46 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
         }
     }
 
-    public static void main(String[] args) {
-        JFrame frame = new JFrame("TowerDefense " + VERSION);
-        JTowerDefense td = new JTowerDefense();
-        frame.setSize(1000, 860);
+    @Override
+    public void run() {
 
-        Dimension d = Toolkit.getDefaultToolkit().getScreenSize();
-        int x = (d.width - frame.getSize().width) / 2;
-        int y = (d.height - frame.getSize().height) / 2;
-        frame.setLocation(x, y);
-        frame.addMouseMotionListener(td);
-        frame.addKeyListener(td);
+        while (true) {
 
-        frame.setIconImage(new ImageIcon(Objects.requireNonNull(TowerDefenseGraphics.class.getResource("td.png"))).getImage());
-        frame.add(td);
-        frame.addMouseListener(td);
-        frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setResizable(false);
-        frame.setVisible(true);
+            if (!gameData.isGameOver() && !gameData.isPause()) {
+                //animation
+                gameData.countTmpMoney();
+                gameData.countTmpScore();
+
+                if (allAttackersDead()) {
+                    gameData.addAttackersForLevel();
+                }
+
+                if (gameData.getFails() <= 0) {
+                    gameData.setGameOver(true);
+                    gameData.setInMenu(true);
+                    gameData.setTmpScore(gameData.getScore());
+                }
+
+                if (allAttackersMarchedThrough()) {
+                    gameData.addAttackersForLevel();
+                }
+
+                for (Blood b : gameData.getKillList()) {
+                    b.dryBlood();
+                }
+
+                moveAttackers();
+                handleTowers();
+            }
+
+            repaint();
+
+            try {
+                Thread.sleep(GameData.MAX_SPEED + 1 - gameData.getSpeed());
+            } catch (InterruptedException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     @Override
@@ -156,11 +185,10 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                 }
 
                 // build tower
-                if (TowerDefHelper.isPositionFree(new Point(roundMx, roundMy), gameData, gameMap) && gameData.getSelectedBuildTower() != null && gameData.getMoney() >= gameData.getSelectedBuildTower().getType().getCost() && gameData.getSelectedTower() == null && roundMy < 340) {
+                if (TowerDefHelper.isPositionFree(new Point(roundMx, roundMy), gameData, gameMap) && gameData.getSelectedBuildTower() != null && gameData.getMoney() >= gameData.getSelectedBuildTower().getType().getCost() && gameData.getSelectedTower() == null && roundMy < 340 * GameData.ZOOM) {
                     gameData.getBuildTowers().add(new Tower(new Point(roundMx, roundMy), 50 * GameData.ZOOM, 0, gameData.getSelectedBuildTower().getType()));
                     repaint();
                     gameData.setMoney(gameData.getMoney() - gameData.getSelectedBuildTower().getType().getCost());
-                    gameData.setSelectedTower(gameData.getBuildTowers().get(gameData.getBuildTowers().size() -1));
                     gameData.setSelectedBuildTower(null);
                     gameData.setSelectedTower(null);
                 }
@@ -226,67 +254,23 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     }
 
     private boolean allAttackersDead() {
-        boolean allDead = true;
+
         for (Attacker attacker : gameData.getAttackers()) {
             if (!attacker.isDead()) {
-                allDead = false;
-                break;
+                return false;
             }
         }
-        return allDead;
+        return true;
     }
 
     private boolean allAttackersMarchedThrough() {
-        boolean allThrough = true;
+
         for (Attacker attacker : gameData.getAttackers()) {
             if (!attacker.isMarchedThrough() && !attacker.isDead()) {
-                allThrough = false;
-                break;
+                return false;
             }
         }
-        return allThrough;
-    }
-
-    @Override
-    public void run() {
-
-        while (true) {
-
-            if (!gameData.isGameOver() && !gameData.isPause()) {
-                //animation
-                gameData.countTmpMoney();
-                gameData.countTmpScore();
-
-                if (allAttackersDead()) {
-                    gameData.addAttackersForLevel();
-                }
-
-                if (gameData.getFails() <= 0) {
-                    gameData.setGameOver(true);
-                    gameData.setInMenu(true);
-                    gameData.setTmpScore(gameData.getScore());
-                }
-
-                if (allAttackersMarchedThrough()) {
-                    gameData.addAttackersForLevel();
-                }
-
-                for (Blood b : gameData.getKillList()) {
-                    b.dryBlood();
-                }
-
-                moveAttackers();
-                handleTowers();
-            }
-
-            repaint();
-
-            try {
-                Thread.sleep(GameData.MAX_SPEED + 1 - gameData.getSpeed());
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
-        }
+        return true;
     }
 
     private void moveAttackers(){
@@ -389,7 +373,6 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
     }
 
     private void handleTowerShots(Tower t) {
-        boolean removeShot = false;
         Shot shot = t.getShots();
 
         if (t.getCanonLength() < Tower.MAX_CANNON_LENGTH) {
@@ -399,13 +382,9 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
         if (shot != null) {
 
             if (shot.getOpacity() == 0.0f) {
-                removeShot = true;
+                t.setShot(null);
             } else {
                 shot.fadeShot();
-            }
-
-            if (removeShot) {
-                t.setShot(null);
             }
         }
     }

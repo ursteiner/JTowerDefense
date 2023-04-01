@@ -19,8 +19,10 @@ public class ButtonOpenMenu extends AbstractButton {
 
     @Override
     public void paintButton(Graphics g) {
-        g.setColor(new Color(0f, 0f, 0f, 0.75f));
-        g.fillRect(355 * GameData.ZOOM, 40 * GameData.ZOOM, 115 * GameData.ZOOM, 110 * GameData.ZOOM);
+        if(getGameData().isInMenu()) {
+            g.setColor(new Color(0f, 0f, 0f, 0.75f));
+            g.fillRect(355 * GameData.ZOOM, 40 * GameData.ZOOM, 115 * GameData.ZOOM, 110 * GameData.ZOOM);
+        }
         if (isButtonEnabled()) {
             g.setFont(TowerDefenseGraphics.FONT_GAME_OVER);
             g.setColor(new Color(1f, 1f, 1f, 0.5f));

@@ -20,21 +20,23 @@ public class ButtonShowTowerRadius extends AbstractButton {
 
     @Override
     public void paintButton(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(getPosition().x, getPosition().y, getWidth(), getHeight());
+        if(isButtonVisible()) {
+            g.setColor(Color.BLACK);
+            g.fillRect(getPosition().x, getPosition().y, getWidth(), getHeight());
 
-        if (isButtonEnabled()) {
-            g.setColor(Color.WHITE);
-        } else {
-            g.setColor(Color.GRAY);
-        }
+            if (isButtonEnabled()) {
+                g.setColor(Color.WHITE);
+            } else {
+                g.setColor(Color.GRAY);
+            }
 
-        g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 1 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
-        g.fillOval(getPosition().x + 10 * GameData.ZOOM, getPosition().y + 5 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
-        g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 9 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
+            g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 1 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
+            g.fillOval(getPosition().x + 10 * GameData.ZOOM, getPosition().y + 5 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
+            g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 9 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
 
-        if(isMouseOver()){
-            TowerDefenseGraphics.paintHint(g, getHint());
+            if (isMouseOver()) {
+                TowerDefenseGraphics.paintHint(g, getHint());
+            }
         }
     }
 
@@ -45,6 +47,6 @@ public class ButtonShowTowerRadius extends AbstractButton {
 
     @Override
     public boolean isButtonVisible() {
-        return false;
+        return !getGameData().isInMenu();
     }
 }

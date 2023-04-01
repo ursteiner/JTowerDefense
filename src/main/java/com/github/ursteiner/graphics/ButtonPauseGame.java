@@ -21,20 +21,22 @@ public class ButtonPauseGame extends AbstractButton {
 
     @Override
     public void paintButton(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(getPosition().x, getPosition().y, getWidth(), getWidth());
+        if(isButtonVisible()) {
+            g.setColor(Color.BLACK);
+            g.fillRect(getPosition().x, getPosition().y, getWidth(), getWidth());
 
-        if (isButtonEnabled()) {
-            g.setColor(Color.WHITE);
-        } else {
-            g.setColor(Color.GRAY);
-        }
+            if (isButtonEnabled()) {
+                g.setColor(Color.WHITE);
+            } else {
+                g.setColor(Color.GRAY);
+            }
 
-        g.fillRect(getPosition().x + 3 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, + getHeight() - 4 * GameData.ZOOM);
-        g.fillRect(getPosition().x + 12 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, + getHeight() - 4 * GameData.ZOOM);
+            g.fillRect(getPosition().x + 3 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, +getHeight() - 4 * GameData.ZOOM);
+            g.fillRect(getPosition().x + 12 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, +getHeight() - 4 * GameData.ZOOM);
 
-        if(isMouseOver()) {
-            TowerDefenseGraphics.paintHint(g, getHint());
+            if (isMouseOver()) {
+                TowerDefenseGraphics.paintHint(g, getHint());
+            }
         }
     }
 
@@ -45,6 +47,6 @@ public class ButtonPauseGame extends AbstractButton {
 
     @Override
     public boolean isButtonVisible() {
-        return false;
+        return !getGameData().isInMenu();
     }
 }

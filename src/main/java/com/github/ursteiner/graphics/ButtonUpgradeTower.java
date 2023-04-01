@@ -31,21 +31,23 @@ public class ButtonUpgradeTower extends AbstractButton {
 
     @Override
     public void paintButton(Graphics g) {
+        if(isButtonVisible()) {
 
-        g.setColor(Color.BLACK);
-        g.fillRect(position.x, position.y, getWidth(), getHeight());
+            g.setColor(Color.BLACK);
+            g.fillRect(position.x, position.y, getWidth(), getHeight());
 
-        if (isButtonEnabled()) {
-            g.setColor(Color.WHITE);
-        } else {
-            g.setColor(Color.GRAY);
-        }
+            if (isButtonEnabled()) {
+                g.setColor(Color.WHITE);
+            } else {
+                g.setColor(Color.GRAY);
+            }
 
-        g.fillRect(position.x + 1 * GameData.ZOOM, position.y + 8 * GameData.ZOOM, 18 * GameData.ZOOM, 4 * GameData.ZOOM);
-        g.fillRect(position.x + 8 * GameData.ZOOM, position.y + 1 * GameData.ZOOM, 4 * GameData.ZOOM, 18 * GameData.ZOOM);
+            g.fillRect(position.x + 1 * GameData.ZOOM, position.y + 8 * GameData.ZOOM, 18 * GameData.ZOOM, 4 * GameData.ZOOM);
+            g.fillRect(position.x + 8 * GameData.ZOOM, position.y + 1 * GameData.ZOOM, 4 * GameData.ZOOM, 18 * GameData.ZOOM);
 
-        if(isMouseOver()) {
-            TowerDefenseGraphics.paintHint(g, getHint());
+            if (isMouseOver()) {
+                TowerDefenseGraphics.paintHint(g, getHint());
+            }
         }
     }
 
@@ -56,6 +58,6 @@ public class ButtonUpgradeTower extends AbstractButton {
 
     @Override
     public boolean isButtonVisible() {
-        return false;
+        return !getGameData().isInMenu();
     }
 }

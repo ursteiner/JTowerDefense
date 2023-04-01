@@ -26,16 +26,18 @@ public class ButtonFaster extends AbstractButton{
 
     @Override
     public void paintButton(Graphics g) {
-        g.setColor(Color.BLACK);
-        g.fillRect(getPosition().x, getPosition().y, width, height);
+        if(isButtonVisible()) {
+            g.setColor(Color.BLACK);
+            g.fillRect(getPosition().x, getPosition().y, width, height);
 
-        g.setColor(Color.WHITE);
+            g.setColor(Color.WHITE);
 
-        g.fillRect(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 4 * GameData.ZOOM, 8 * GameData.ZOOM, 2 * GameData.ZOOM);
-        g.fillRect(getPosition().x + 4 * GameData.ZOOM, getPosition().y + 1 * GameData.ZOOM, 2 * GameData.ZOOM, 8 * GameData.ZOOM);
+            g.fillRect(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 4 * GameData.ZOOM, 8 * GameData.ZOOM, 2 * GameData.ZOOM);
+            g.fillRect(getPosition().x + 4 * GameData.ZOOM, getPosition().y + 1 * GameData.ZOOM, 2 * GameData.ZOOM, 8 * GameData.ZOOM);
 
-        if(isMouseOver()) {
-            TowerDefenseGraphics.paintHint(g, getHint());
+            if (isMouseOver()) {
+                TowerDefenseGraphics.paintHint(g, getHint());
+            }
         }
     }
 
@@ -46,6 +48,6 @@ public class ButtonFaster extends AbstractButton{
 
     @Override
     public boolean isButtonVisible() {
-        return getGameData().isActiveGameRunning();
+        return !getGameData().isInMenu();
     }
 }

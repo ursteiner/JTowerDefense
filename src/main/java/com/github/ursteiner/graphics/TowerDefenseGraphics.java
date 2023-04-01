@@ -94,12 +94,18 @@ public class TowerDefenseGraphics {
 		g.setColor(Color.black);
 		g.fillRect(110 * GameData.ZOOM, 350 * GameData.ZOOM, 245 * GameData.ZOOM, 20 * GameData.ZOOM);
 
-		g.setColor(Color.WHITE);
+		paintStatusWithColor(g, gameData, kills, Color.white, 0);
+		paintStatusWithColor(g, gameData, kills, Color.lightGray, 1);
+		paintStatusWithColor(g, gameData, kills, Color.gray, 2);
+	}
+
+	private static void paintStatusWithColor(Graphics g, GameData gameData, int kills, Color fontColor, int offset){
+		g.setColor(fontColor);
 		g.setFont(BASIC_FONT);
-		g.drawString(" lvl: " + gameData.getLevel(), 110 * GameData.ZOOM, 365 * GameData.ZOOM);
-		g.drawString(gameData.getTmpMoney() + " $", 150 * GameData.ZOOM, 365 * GameData.ZOOM);
-		g.drawString("score: " + gameData.getScore(), 210 * GameData.ZOOM, 365 * GameData.ZOOM);
-		g.drawString("kills: " + kills, 300 * GameData.ZOOM, 365 * GameData.ZOOM);
+		g.drawString(" lvl: " + gameData.getLevel(), 110 * GameData.ZOOM + offset, 363 * GameData.ZOOM + offset);
+		g.drawString(gameData.getTmpMoney() + " $", 150 * GameData.ZOOM + offset, 363 * GameData.ZOOM + offset);
+		g.drawString("score: " + gameData.getScore(), 210 * GameData.ZOOM + offset, 363 * GameData.ZOOM + offset);
+		g.drawString("kills: " + kills, 300 * GameData.ZOOM + offset, 363 * GameData.ZOOM + offset);
 	}
 
 	public static void paintHint(Graphics g, Hint h) {
@@ -211,7 +217,7 @@ public class TowerDefenseGraphics {
 			// paint Level
 			for (int i = 1; i <= Tower.MAX_UPGRADE_LEVEL; i++) {
 				if (i <= tower.getLevel()) {
-					g.setColor(Color.decode("#FFE524"));
+					g.setColor(Color.decode("#daa520"));
 				} else {
 					g.setColor(Color.decode("#FFFFFF"));
 				}
