@@ -27,7 +27,7 @@ jar {
         attributes "Main-Class": "com.github.ursteiner.JTowerDefense"
     }
     from {
-        configurations.compile.collect { it.isDirectory() ? it : zipTree(it) }
+        configurations.runtimeClasspath.collect { it.isDirectory() ? it : zipTree(it) }
     }{
         exclude 'META-INF/*.RSA'
         exclude 'META-INF/*.SF'
