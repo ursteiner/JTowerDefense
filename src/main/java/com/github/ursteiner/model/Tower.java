@@ -69,11 +69,7 @@ public class Tower {
 		}
 	}
 
-	public Shot getShots() {
-		return shots;
-	}
-
-	public void setShot(Shot shot) {
+    public void setShot(Shot shot) {
 		this.shots = shot;
 	}
 }

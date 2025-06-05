@@ -9,6 +9,7 @@ import java.awt.event.KeyListener;
 import java.awt.event.MouseEvent;
 import java.awt.event.MouseListener;
 import java.awt.event.MouseMotionListener;
+import java.io.Serial;
 import java.util.List;
 import java.util.Objects;
 
@@ -18,6 +19,7 @@ import javax.swing.JPanel;
 
 public class JTowerDefense extends JPanel implements Runnable, MouseListener, MouseMotionListener, KeyListener {
 
+    @Serial
     private static final long serialVersionUID = 5661273172996533040L;
 
     public static final String VERSION = "1.10";
@@ -446,7 +448,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                 break;
             case KeyEvent.VK_1:
                 gameData.setSelectedTower(null);
-                gameData.setSelectedBuildTower(gameData.getAvailableTowers().get(0));
+                gameData.setSelectedBuildTower(gameData.getAvailableTowers().getFirst());
                 break;
             case KeyEvent.VK_2:
                 gameData.setSelectedTower(null);

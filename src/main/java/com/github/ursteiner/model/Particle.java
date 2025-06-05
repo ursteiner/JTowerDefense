@@ -20,7 +20,7 @@ public class Particle {
 		this.t = 0;
 	}
 
-	public int getWinkel() {
+	public int getAngle() {
 		return a;
 	}
 }

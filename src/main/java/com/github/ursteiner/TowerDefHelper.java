@@ -43,10 +43,8 @@ public class TowerDefHelper {
 
 	public static boolean canUpgrade(Tower t, GameData gameData) {
 		if (!Type.DETECTOR.equals(t.getType())) {
-			if (t.getLevel() == 1 && gameData.getMoney() >= 100 && gameData.getLevel() >= 4
-					|| t.getLevel() == 2 && gameData.getMoney() >= 250 && gameData.getLevel() >= 10) {
-				return true;
-			}
+            return t.getLevel() == 1 && gameData.getMoney() >= 100 && gameData.getLevel() >= 4
+                    || t.getLevel() == 2 && gameData.getMoney() >= 250 && gameData.getLevel() >= 10;
 		}
 		return false;
 	}
@@ -54,8 +52,8 @@ public class TowerDefHelper {
 	public static void calculateNewParticlePos(Particle p) {
 
 		p.setT(p.getT() + 0.1);
-		p.setX((int) (p.getV0() * Math.cos(p.getWinkel()) * p.getT()));
-		p.setY((int) (p.getV0() * Math.sin(p.getWinkel()) * p.getT() - (g / 2) * (Math.pow(p.getT(), 2))));
+		p.setX((int) (p.getV0() * Math.cos(p.getAngle()) * p.getT()));
+		p.setY((int) (p.getV0() * Math.sin(p.getAngle()) * p.getT() - (g / 2) * (Math.pow(p.getT(), 2))));
 	}
 
 	public static boolean isPositionFree(Point p, GameData gameData, GameMap gameMap) {

@@ -30,9 +30,9 @@ public class ButtonShowTowerRadius extends AbstractButton {
                 g.setColor(Color.GRAY);
             }
 
-            g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 1 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
+            g.fillOval(getPosition().x + GameData.ZOOM, getPosition().y + GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
             g.fillOval(getPosition().x + 10 * GameData.ZOOM, getPosition().y + 5 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
-            g.fillOval(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 9 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
+            g.fillOval(getPosition().x + GameData.ZOOM, getPosition().y + 9 * GameData.ZOOM, 10 * GameData.ZOOM, 10 * GameData.ZOOM);
 
             if (isMouseOver()) {
                 TowerDefenseGraphics.paintHint(g, getHint());

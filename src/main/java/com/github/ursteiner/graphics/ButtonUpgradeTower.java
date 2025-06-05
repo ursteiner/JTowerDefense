@@ -42,8 +42,8 @@ public class ButtonUpgradeTower extends AbstractButton {
                 g.setColor(Color.GRAY);
             }
 
-            g.fillRect(position.x + 1 * GameData.ZOOM, position.y + 8 * GameData.ZOOM, 18 * GameData.ZOOM, 4 * GameData.ZOOM);
-            g.fillRect(position.x + 8 * GameData.ZOOM, position.y + 1 * GameData.ZOOM, 4 * GameData.ZOOM, 18 * GameData.ZOOM);
+            g.fillRect(position.x + GameData.ZOOM, position.y + 8 * GameData.ZOOM, 18 * GameData.ZOOM, 4 * GameData.ZOOM);
+            g.fillRect(position.x + 8 * GameData.ZOOM, position.y + GameData.ZOOM, 4 * GameData.ZOOM, 18 * GameData.ZOOM);
 
             if (isMouseOver()) {
                 TowerDefenseGraphics.paintHint(g, getHint());

@@ -31,7 +31,7 @@ public class ButtonSlower extends AbstractButton {
             g.fillRect(getPosition().x, getPosition().y, width, height);
 
             g.setColor(Color.WHITE);
-            g.fillRect(getPosition().x + 1 * GameData.ZOOM, getPosition().y + 4 * GameData.ZOOM, 8 * GameData.ZOOM, 2 * GameData.ZOOM);
+            g.fillRect(getPosition().x + GameData.ZOOM, getPosition().y + 4 * GameData.ZOOM, 8 * GameData.ZOOM, 2 * GameData.ZOOM);
 
             if (isMouseOver()) {
                 TowerDefenseGraphics.paintHint(g, getHint());

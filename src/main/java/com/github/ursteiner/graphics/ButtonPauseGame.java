@@ -31,8 +31,8 @@ public class ButtonPauseGame extends AbstractButton {
                 g.setColor(Color.GRAY);
             }
 
-            g.fillRect(getPosition().x + 3 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, +getHeight() - 4 * GameData.ZOOM);
-            g.fillRect(getPosition().x + 12 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, +getHeight() - 4 * GameData.ZOOM);
+            g.fillRect(getPosition().x + 3 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, getHeight() - 4 * GameData.ZOOM);
+            g.fillRect(getPosition().x + 12 * GameData.ZOOM, getPosition().y + 2 * GameData.ZOOM, 5 * GameData.ZOOM, getHeight() - 4 * GameData.ZOOM);
 
             if (isMouseOver()) {
                 TowerDefenseGraphics.paintHint(g, getHint());

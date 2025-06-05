@@ -1,6 +1,6 @@
 # JTowerDefense
 
-![JTowerDefense](https://github.com/ursteiner/JTowerDefense/blob/master/JTowerDefense.png)
+![JTowerDefense](screenshots/JTowerDefense.png)
 
 It's a simple Java Tower Defense game. There are four types of towers that can be build:
 <dl>

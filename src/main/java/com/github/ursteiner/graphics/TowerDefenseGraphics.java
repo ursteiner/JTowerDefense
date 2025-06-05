@@ -29,9 +29,9 @@ public class TowerDefenseGraphics {
 	private static final Font BASIC_FONT = new Font(FONT_NAME, Font.PLAIN, 10 * GameData.ZOOM);
 	private final Image GRASS = scaleImage(new ImageIcon(getClass().getResource("grass.png")).getImage());
 	private final Image WAY = scaleImage(new ImageIcon(getClass().getResource("way.png")).getImage());
-	private final Image TOWER_BLUE = scaleImage(new ImageIcon(getClass().getResource("towerblue.png")).getImage());
-	private final Image TOWER_BROWN = scaleImage(new ImageIcon(getClass().getResource("towerbrown.png")).getImage());
-	private final Image TOWER_MIXED = scaleImage(new ImageIcon(getClass().getResource("towermixed.png")).getImage());
+	private final Image TOWER_BLUE = scaleImage(new ImageIcon(getClass().getResource("towerBlue.png")).getImage());
+	private final Image TOWER_BROWN = scaleImage(new ImageIcon(getClass().getResource("towerBrown.png")).getImage());
+	private final Image TOWER_MIXED = scaleImage(new ImageIcon(getClass().getResource("towerMixed.png")).getImage());
 	private final Image SEA = scaleImage(new ImageIcon(getClass().getResource("sea.png")).getImage());
 	private final Image DETECTOR = scaleImage(new ImageIcon(getClass().getResource("detector.png")).getImage());
 
