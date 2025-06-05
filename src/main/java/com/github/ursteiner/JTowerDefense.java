@@ -448,7 +448,7 @@ public class JTowerDefense extends JPanel implements Runnable, MouseListener, Mo
                 break;
             case KeyEvent.VK_1:
                 gameData.setSelectedTower(null);
-                gameData.setSelectedBuildTower(gameData.getAvailableTowers().getFirst());
+                gameData.setSelectedBuildTower(gameData.getAvailableTowers().get(0));
                 break;
             case KeyEvent.VK_2:
                 gameData.setSelectedTower(null);
