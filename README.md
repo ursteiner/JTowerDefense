@@ -1,5 +1,8 @@
 # JTowerDefense
 
+
+[![Java CI with Gradle](https://github.com/ursteiner/JTowerDefense/actions/workflows/gradle.yml/badge.svg)](https://github.com/ursteiner/JTowerDefense/actions/workflows/gradle.yml)
+
 ![JTowerDefense](screenshots/JTowerDefense.png)
 
 It's a simple Java Tower Defense game. There are four types of towers that can be build:
