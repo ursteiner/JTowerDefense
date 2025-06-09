@@ -3,19 +3,27 @@
 ![JTowerDefense](screenshots/JTowerDefense.png)
 
 It's a simple Java Tower Defense game. There are four types of towers that can be build:
-<dl>
-    <dt>Blue Tower</dt>
-    <dd>Attacks blue enemies.</dd>
-    <dt>Brown tower</dt>
-    <dd>Attacks brown enemies</dd>
-    <dt>Blue/brown tower</dt>
-    <dd>Can attack both kinds of enemies</dd>
-    <dt>Detector Tower</dt>
-    <dd>Makes invisible attackers visible for defending towers</dd>
-</dl>
+<table>
+<tr>
+<td><img alt="Blue Tower" src="src/main/resources/com/github/ursteiner/graphics/towerBlue.png"></td>
+<td>Attacks blue enemies.</td>
+</tr>
+<tr>
+<td><img alt="Blue/brown Tower" src="src/main/resources/com/github/ursteiner/graphics/towerMixed.png"></td>
+<td>Can attack both kinds of enemies</td>
+</tr>
+<tr>
+<td><img alt="Brown Tower" src="src/main/resources/com/github/ursteiner/graphics/towerBrown.png"></td>
+<td>Attacks brown enemies</td>
+</tr>
+<tr>
+<td><img alt="Detection Tower" src="src/main/resources/com/github/ursteiner/graphics/detector.png"></td>
+<td>Makes invisible attackers visible for defending towers</td>
+</tr>
+</table>
 
 
-# Changelog
+# Old Changelog
 
 27.03.2023 Major refactoring started
 
